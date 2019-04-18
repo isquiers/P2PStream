@@ -2,8 +2,10 @@
 * Created by Ian Squired and Sean Cork
 *
 */
+import java.rmi.*;
 
-public class Node {
+
+public class Master {
 
   //What I think we need to do.
 
@@ -29,7 +31,11 @@ public class Node {
   * - update index ( master )
   * - create network ( master )
   * - update index cache ( viewer )
-  * - request cache
+  * - request cache ( viewer )
+  * - play? ( everyone )
+  *  - Note from will remmeber to serialize custom objects and classes before
+  * you can send them over java RMI.
+  * class that starts simulation.
   *
   */
 
