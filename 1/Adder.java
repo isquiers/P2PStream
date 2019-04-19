@@ -1,5 +1,22 @@
 import java.rmi.*;
-public interface Adder extends Remote{
+public interface Node extends Remote{
 
-public int add(int x,int y)throws RemoteException;
+// public void join(String masterIP)
+
+// public void leave()
+
+public DataBlock requestData(String feederIP) throws RemoteException;
+
+public void sendData(Object dataBlock) throws RemoteException;
+
+public String updateMaster(String masterIP, String deadNodeIP) throws RemoteException;
+
+// public createNetwork()
+
+public updateIndexCache;
+
+public requestCache;
+
+public play;
+
 }
