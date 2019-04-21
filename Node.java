@@ -10,8 +10,8 @@
 
 package com.technicalkeeda.app;
 import java.net.InetAddress;
- 
-public class Node {
+
+public class Node extends UnicastRemoteObject implements NodeInterface{
 
   Integer dataBlockSize;
   Integer cacheSize;
@@ -57,10 +57,20 @@ public class Node {
 
   }
 
+  public DataBlock requestData(String feederIP, int dataOffset) throws RemoteException;
+
+  public String updateMaster(String masterIP, String deadNodeIP) throws RemoteException;
+
   //only for masterIP
   void loadCache() {
     // can use this.cache
   }
+
+  public Arraylist<String> updateIndexCache(String masterIp);
+
+  public Arraylist<String> requestCache();
+
+  public play();
 
   public setDataBlockSize(int dataBlockSize){
     this.dataBlockSize = dataBlockSize;
