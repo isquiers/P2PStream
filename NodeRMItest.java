@@ -8,13 +8,10 @@
 //5. data structure for branching chain
   //Do a wierd tree.
 //7. suggestions on modeling bitrate both from client and for "streaming"
-
-package com.technicalkeeda.app;
 import java.net.InetAddress;
 import java.util.*;
 import java.rmi.*;
 import java.rmi.server.*;
-
 
 
 public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
@@ -30,7 +27,7 @@ public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
 //   boolean isMaster = false;
 //   Integer currOffset = 0;
 //
-  NodeRMItest() throws RemoteException {
+  NodeRMItest()throws RemoteException {
     super();
   }
 
