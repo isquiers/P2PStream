@@ -7,6 +7,8 @@ AdderRemote()throws RemoteException{
 super();
 }
 
-public int add(int x,int y){return x+y;}
+public String join(String newIp) {
+  System.out.println("Here is the IP " + newIp);
+}
 
 }
