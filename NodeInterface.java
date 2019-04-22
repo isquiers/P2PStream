@@ -1,20 +1,24 @@
 import java.rmi.*;
-public interface Node extends Remote{
+import java.util.*;
+
+public interface NodeInterface extends Remote{
 
 // public void join(String masterIP)
 
 // public void leave()
 
-public DataBlock requestData(String feederIP, int dataOffset) throws RemoteException;
+// public DataBlock requestData(int dataOffset) throws RemoteException;
 
-public String updateMaster(String masterIP, String deadNodeIP) throws RemoteException;
+// master recieves node to remove and returns the new provider in the chain
+public String updateMaster(String senderIp, String deadNodeIP) throws RemoteException;
 
 // public createNetwork()
 
-public Arraylist<String> updateIndexCache(String masterIp);
+public String join(String myIp) throws RemoteException;
 
-public Arraylist<String> requestCache();
+public ArrayList<String> updateIndexCache(String masterIp);
 
-public play();
+public ArrayList<String> requestCache();
+
 
 }

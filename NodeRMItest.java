@@ -11,9 +11,13 @@
 
 package com.technicalkeeda.app;
 import java.net.InetAddress;
+import java.util.*;
+import java.rmi.*;
 
-public class Node {
-  ArrayList<ArrayList<long>> dataBlock;
+
+
+public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
+  ArrayList<ArrayList<Long>> dataBlock;
   ArrayList<String> nodeIndex;
   Integer maxSize = 250000;
   Integer dataBlockSize;
@@ -30,25 +34,31 @@ public class Node {
     //
     if (args[0] == "1") {
       try{
-        NodeInterface stub=new NodeInterfaceRemote();
-        Naming.rebind("rmi://localhost:5000/sonoo",stub);
+        NodeInterface stub=new NodeRMItest();
+        Naming.rebind("rmi://localhost:8005/sonoo",stub);
       }
-        catch(Exception e){System.out.println(e);}
-      while (true) {
-
-      }
+        catch(Exception e) {
+          System.out.println(e);
+        }
     } else {
       try {
-        NodeFunctions stub = (NodeFunctions)Naming.lookup("rmi://54.209.66.61:5000/sonoo");
-        DataBlock nextDB = stub.join("cats cats");
+        NodeInterface stub = (NodeInterface) Naming.lookup("rmi://54.209.66.61:8005/sonoo");
+        String cats = stub.join("cats cats");
+        System.out.println(cats);
         // put DB into cache
       }
       catch(Exception e) {
         System.out.println(e);
-        System.out.println("Error with Provider, resetting")
+        System.out.println("Error with Provider, resetting");
       }
     }
   }
+
+  // public String join(String newIp) {
+  //   System.out.println("Here is the IP " + newIp);
+  // }
+
+}
 
   // viewer function: loop while the currProvier is still responding
   //                  if theres is error or stopage of response we need to
