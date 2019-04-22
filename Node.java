@@ -86,9 +86,29 @@ public class Node {
 
   }
 
-  //only for masterIP
+  public DataBlock requestData(String feederIP, int dataOffset) throws RemoteException;
+
+  public String updateMaster(String masterIP, String deadNodeIP) throws RemoteException;
+
   void createNodeIndex() {
     this.nodeIndex = new ArrayList<String>();
+  //only for masterIP
+  void loadCache() {
+    // can use this.cache
+  }
+
+  public Arraylist<String> updateIndexCache(String masterIp);
+
+  public Arraylist<String> requestCache();
+
+  public play();
+
+  public setDataBlockSize(int dataBlockSize){
+    this.dataBlockSize = dataBlockSize;
+  }
+
+  public setCacheSize(int cahceSize){
+    this.cacheSize = cacheSize;
   }
 
   void createDataBlock(){
