@@ -23,7 +23,7 @@ public interface NodeInterface extends Remote {
   //
   // public ArrayList<String> requestCache();
 
-  int add(int x,int y)throws RemoteException;
+  public int add(int x,int y)throws RemoteException;
 
 
 }
