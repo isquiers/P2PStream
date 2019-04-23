@@ -35,6 +35,7 @@
  * intended for use in the design, construction, operation or
  * maintenance of any nuclear facility.
  */
+package example.hello;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -53,11 +54,11 @@ public class Server implements Hello {
 
         try {
             Server obj = new Server();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8696);
 
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.createRegistry(8696);;
-            registry.rebind("Hello", stub);
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("Hello", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {

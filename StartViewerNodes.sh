@@ -4,5 +4,5 @@ NOODES=('3.14.67.164' '54.153.0.234' '54.193.125.205' '52.24.143.203' '34.221.17
 
 for node in "${NODE[@]}"; do
   scp -i $1 -r P2PStream/ $2@$node:PPStream/
-  ssh -i $1 $2@$node mkdir cats
+  #ssh -i $1 $2@$node mkdir cats
 done
