@@ -14,7 +14,7 @@ import java.rmi.*;
 import java.rmi.server.*;
 
 
-public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
+public class NodeRMItest implements NodeInterface{
   ArrayList<ArrayList<Long>> dataBlock;
   ArrayList<String> nodeIndex;
   Integer maxSize = 250000;
@@ -41,18 +41,28 @@ public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
     // [dataBlockSize][cacheSize][MasterIp][*Optional Content filename]
     if (args[0] == "1") {
       try{
-        NodeInterface stub=new NodeRMItest();
-        Naming.rebind("rmi://localhost:8005/sonoo",stub);
+        NodeRMItest Node = new NodeRMItest();
+        NodeInterface stub = (NodeInterface) UnicastRemoteObject.exportObject(Node, 0);
+        Registry registry =  LocateRegistry.createRegistry(8005);
+        registry.rebind("TestNode", stub);
+
+        System.err.println("Server ready");
+
+        //Naming.rebind("rmi://localhost:8005/sonoo",stub);
       }
         catch(Exception e) {
           System.out.println(e);
         }
     } else {
       try {
-        NodeInterface stub = (NodeInterface) Naming.lookup("rmi://54.209.66.61:8005/sonoo");
-        String cats = stub.join("cats cats");
-        System.out.println(cats);
+        // NodeInterface stub = (NodeInterface) Naming.lookup("rmi://54.209.66.61:8005/sonoo");
+        // String cats = stub.join("cats cats");
+        // System.out.println(cats);
         // put DB into cache
+        Registry registry = LocateRegistry.getRegistry(8005);
+        NodeInterface stub = (NodeInterface) registry.lookup("TestNode");
+        String response = stub.join("cats cats");
+        System.out.println("response: " + response);
       }
       catch(Exception e) {
         System.out.println(e);
