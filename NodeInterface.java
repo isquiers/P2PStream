@@ -1,9 +1,6 @@
 import java.rmi.*;
 public interface NodeInterface extends Remote {
 
-
-  // public void join(String masterIP)
-
   // public void leave()
 
   // public DataBlock requestData(int dataOffset) throws RemoteException;
@@ -13,13 +10,10 @@ public interface NodeInterface extends Remote {
   //
   // // public createNetwork()
   //
-  // public String join(String myIp) throws RemoteException;
+  public String join(String myIp) throws RemoteException;
   //
   // public ArrayList<String> updateIndexCache(String masterIp);
   //
   // public ArrayList<String> requestCache();
-
-  public int add(int x,int y)throws RemoteException;
-
 
 }

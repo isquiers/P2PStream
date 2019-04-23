@@ -2,12 +2,12 @@
 * Created by Ian Squired and Sean Cork
 *
 */
-import java.rmi.*;
-
-
-public class Master {
-
-  //What I think we need to do.
+// import java.rmi.*;
+//
+//
+// public class Master {
+//
+//   //What I think we need to do.
 
   /* 1. What data structure to store the original file/how to split
   *
@@ -40,4 +40,4 @@ public class Master {
   */
 
 
-}
+//}

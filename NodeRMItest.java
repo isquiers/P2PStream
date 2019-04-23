@@ -15,58 +15,50 @@ import java.rmi.server.*;
 
 
 public class NodeRMItest extends UnicastRemoteObject implements NodeInterface{
-//   ArrayList<ArrayList<Long>> dataBlock;
-//   ArrayList<String> nodeIndex;
-//   Integer maxSize = 250000;
-//   Integer dataBlockSize;
-//   Integer cacheSize;
-//   String masterIp;
-//   String selfIp;
-//   String currProvider;
-//   String filename;
-//   boolean isMaster = false;
-//   Integer currOffset = 0;
-//
+  ArrayList<ArrayList<Long>> dataBlock;
+  ArrayList<String> nodeIndex;
+  Integer maxSize = 250000;
+  Integer dataBlockSize;
+  Integer cacheSize;
+  String masterIp;
+  String selfIp;
+  String currProvider;
+  String filename;
+  boolean isMaster = false;
+  Integer currOffset = 0;
+
   NodeRMItest()throws RemoteException {
     super();
   }
 
-  public int add(int x,int y){return x+y;}
+  public String join(String newIp) {
+    System.out.println("Here is the IP " + newIp);
+    return newIp;
+  }
+
+
+  public static void main(String[] args) {
+    // [dataBlockSize][cacheSize][MasterIp][*Optional Content filename]
+    if (args[0] == "1") {
+      try{
+        NodeInterface stub=new NodeRMItest();
+        Naming.rebind("rmi://localhost:8005/sonoo",stub);
+      }
+        catch(Exception e) {
+          System.out.println(e);
+        }
+    } else {
+      try {
+        NodeInterface stub = (NodeInterface) Naming.lookup("rmi://54.209.66.61:8005/sonoo");
+        String cats = stub.join("cats cats");
+        System.out.println(cats);
+        // put DB into cache
+      }
+      catch(Exception e) {
+        System.out.println(e);
+        System.out.println("Error with Provider, resetting");
+      }
+    }
+  }
 
 }
-//
-//   public static void main(String[] args) {
-//     // [dataBlockSize][cacheSize][MasterIp][*Optional Content filename]
-//     //
-//     if (args[0] == "1") {
-//       try{
-//         NodeInterface stub=new NodeRMItest();
-//         Naming.rebind("rmi://localhost:8005/sonoo",stub);
-//       }
-//         catch(Exception e) {
-//           System.out.println(e);
-//         }
-//     } else {
-//       try {
-//         NodeInterface stub = (NodeInterface) Naming.lookup("rmi://54.209.66.61:8005/sonoo");
-//         String cats = stub.join("cats cats");
-//         System.out.println(cats);
-//         // put DB into cache
-//       }
-//       catch(Exception e) {
-//         System.out.println(e);
-//         System.out.println("Error with Provider, resetting");
-//       }
-//     }
-//   }
-//
-//   // public String join(String newIp) {
-//   //   System.out.println("Here is the IP " + newIp);
-//   // }
-//
-// }
-
-  // viewer function: loop while the currProvier is still responding
-  //                  if theres is error or stopage of response we need to
-  //                  contact the master and get an new reciever, also
-  //                  maybe respond to new requests with a wait status...
