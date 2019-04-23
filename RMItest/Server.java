@@ -54,10 +54,10 @@ public class Server implements Hello {
 
         try {
             Server obj = new Server();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8696);
+            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
 
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(8699);
             registry.bind("Hello", stub);
 
             System.err.println("Server ready");
