@@ -35,6 +35,7 @@
  * intended for use in the design, construction, operation or
  * maintenance of any nuclear facility.
  */
+package example.hello;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
