@@ -1,40 +1,4 @@
-/*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * -Redistributions of source code must retain the above copyright
- *  notice, this list of conditions and the following disclaimer.
- *
- * -Redistribution in binary form must reproduce the above copyright
- *  notice, this list of conditions and the following disclaimer in
- *  the documentation and/or other materials provided with the
- *  distribution.
- *
- * Neither the name of Oracle nor the names of
- * contributors may be used to endorse or promote products derived
- * from this software without specific prior written permission.
- *
- * This software is provided "AS IS," without a warranty of any
- * kind. ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND
- * WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY
- * EXCLUDED. SUN MICROSYSTEMS, INC. ("SUN") AND ITS LICENSORS SHALL
- * NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF
- * USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
- * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR
- * ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT,
- * SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER
- * CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF
- * THE USE OF OR INABILITY TO USE THIS SOFTWARE, EVEN IF SUN HAS BEEN
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- *
- * You acknowledge that Software is not designed, licensed or
- * intended for use in the design, construction, operation or
- * maintenance of any nuclear facility.
- */
+
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -44,12 +8,12 @@ import java.net.InetAddress;
 import java.lang.*;
 import java.util.*;
 
-String selfIp;
-String currProvider;
-//String filename;
-Boolean isMaster = false;
-//Integer currOffset = 0;
-Integer testcounter = 0;
+// String selfIp;
+// String currProvider;
+// //String filename;
+// Boolean isMaster = false;
+// //Integer currOffset = 0;
+// Integer testcounter = 0;
 
 public class Server implements Hello {
   //ArrayList<ArrayList<Long>> dataBlock;
@@ -57,13 +21,13 @@ public class Server implements Hello {
   //Integer maxSize = 250000;
   //Integer dataBlockSize;
   //Integer cacheSize;
-  //String masterIp;
-  // String selfIp;
-  // String currProvider;
+  //String masterIp
+  public static String selfIp;
+  public static String currProvider;
   // //String filename;
-  // Boolean isMaster = false;
+  public static boolean isMaster = false;
   // //Integer currOffset = 0;
-  // Integer testcounter = 0;
+  public static Integer testcounter = 0;
 
     public Server() {}
 /*
@@ -74,7 +38,7 @@ public class Server implements Hello {
     }
 
     public String checkCounter() {
-      String response = this.testcounter.toString();
+      String response = testcounter.toString();
       return response;
     }
 
@@ -82,19 +46,28 @@ public class Server implements Hello {
 ######################### END REMOTE FUNCTIONS ###########################
 */
     public static void main(String args[]) {
-      if (args[0] == "1") {
-        this.isMaster = true;
+      if (args[0].toString().equals("1")) {
+        System.err.println("is master");
+        isMaster = true;
       }
-      this.currProvier = args[1];
-
-      InetAddress inetAddress = InetAddress.getLocalHost();
-      this.selfIp = inetAddress.getHostAddress();
+      //currProvider = args[1];
+      try{
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        selfIp = inetAddress.getHostAddress();
+      } catch (Exception e){
+        System.err.println("Server exception: " + e.toString());
+        e.printStackTrace();
+      }
 
       startServer();
 
-      if (this.isMaster) {
+      if (isMaster) {
+        Thread t1 = new Thread(new Runnable() {
+          public void run() {
+            updateCounter();
+          }
+        });
         //updateFromFile();
-        Thread t1 = new Thread(updateCounter());
         t1.start();
       } else {
         requestData();
@@ -104,8 +77,8 @@ public class Server implements Hello {
     private static Integer updateCounter() {
       TimerTask repeatedTask = new TimerTask() {
         public void run() {
-          this.testcounter++;
-          System.out.println(this.testcounter);
+          testcounter++;
+          System.err.println(testcounter);
         }
       };
       Timer timer = new Timer();
@@ -114,16 +87,16 @@ public class Server implements Hello {
     }
 
     private static void requestData() {
-      String host = this.currProvier;
+      String host = currProvider;
       try {
           Registry registry = LocateRegistry.getRegistry(host, 8699);
           Hello stub = (Hello) registry.lookup("Hello");
           String response = stub.sayHello();
-          while(response != null){
-            System.out.println(response);
-            //response = stub.sayHello();
-            response = stub.sayHello();
-          }
+          // while(response != null){
+          //   System.out.println(response);
+          //   //response = stub.sayHello();
+          //   response = stub.sayHello();
+          // }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
@@ -144,5 +117,9 @@ public class Server implements Hello {
           System.err.println("Server exception: " + e.toString());
           e.printStackTrace();
       }
+    }
+
+    public static void setMaster(boolean a){
+      isMaster = a;
     }
 }
