@@ -40,29 +40,102 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.net.InetAddress;
+import java.lang.*;
+import java.util.*;
 
 public class Server implements Hello {
+  //ArrayList<ArrayList<Long>> dataBlock;
+  //ArrayList<String> nodeIndex;
+  //Integer maxSize = 250000;
+  //Integer dataBlockSize;
+  //Integer cacheSize;
+  String masterIp;
+  String selfIp;
+  String currProvider;
+  //String filename;
+  Boolean isMaster = false;
+  //Integer currOffset = 0;
+  Integer testcounter = 0;
 
     public Server() {}
-
+/*
+######################### BEGIN REMOTE FUNCTIONS ###########################
+*/
     public String sayHello() {
-        return "Hello, world!";
+      return "Hello, world!";
     }
 
+    public String checkCounter() {
+      String response = this.testcounter.toString();
+      return response;
+    }
+
+/*
+######################### END REMOTE FUNCTIONS ###########################
+*/
     public static void main(String args[]) {
+      if (args[0] == "1") {
+        this.isMaster = true;
+      }
+      this.currProvier = args[1];
 
-        try {
-            Server obj = new Server();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
+      InetAddress inetAddress = InetAddress.getLocalHost();
+      this.selfIp = inetAddress.getHostAddress();
 
-            // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.createRegistry(8699);
-            registry.bind("Hello", stub);
+      startServer();
 
-            System.err.println("Server ready");
+      if (this.isMaster) {
+        //updateFromFile();
+        Thread t1 = new Thread(updateCounter());
+        t1.start();
+      } else {
+        requestData();
+      }
+    }
+
+    private static Integer updateCounter() {
+      TimerTask repeatedTask = new TimerTask() {
+        public void run() {
+          this.testcounter++;
+          System.out.println(this.testcounter);
+        }
+      };
+      Timer timer = new Timer();
+      timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
+      return 1;
+    }
+
+    private static void requestData() {
+      String host = this.currProvier;
+      try {
+          Registry registry = LocateRegistry.getRegistry(host, 8699);
+          Hello stub = (Hello) registry.lookup("Hello");
+          String response = stub.sayHello();
+          while(response != null){
+            System.out.println(response);
+            //response = stub.sayHello();
+            response = stub.sayHello();
+          }
         } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
+            System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
+
+    }
+
+    private static void startServer() {
+      try {
+          Server obj = new Server();
+          Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
+          // Bind the remote object's stub in the registry
+          Registry registry = LocateRegistry.createRegistry(8699);
+          registry.bind("Hello", stub);
+
+          System.err.println("Server ready");
+      } catch (Exception e) {
+          System.err.println("Server exception: " + e.toString());
+          e.printStackTrace();
+      }
     }
 }
