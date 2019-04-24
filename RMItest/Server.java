@@ -35,7 +35,6 @@
  * intended for use in the design, construction, operation or
  * maintenance of any nuclear facility.
  */
-package example.hello;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -45,19 +44,26 @@ import java.net.InetAddress;
 import java.lang.*;
 import java.util.*;
 
+String selfIp;
+String currProvider;
+//String filename;
+Boolean isMaster = false;
+//Integer currOffset = 0;
+Integer testcounter = 0;
+
 public class Server implements Hello {
   //ArrayList<ArrayList<Long>> dataBlock;
   //ArrayList<String> nodeIndex;
   //Integer maxSize = 250000;
   //Integer dataBlockSize;
   //Integer cacheSize;
-  String masterIp;
-  String selfIp;
-  String currProvider;
-  //String filename;
-  Boolean isMaster = false;
-  //Integer currOffset = 0;
-  Integer testcounter = 0;
+  //String masterIp;
+  // String selfIp;
+  // String currProvider;
+  // //String filename;
+  // Boolean isMaster = false;
+  // //Integer currOffset = 0;
+  // Integer testcounter = 0;
 
     public Server() {}
 /*
