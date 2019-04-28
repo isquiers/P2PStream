@@ -96,6 +96,7 @@ public class Server implements Hello {
             System.out.println(response);
             //response = stub.sayHello();
             response = stub.checkCounter();
+            testcounter = Integer.parseInt(response);
           }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
