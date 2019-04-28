@@ -50,7 +50,7 @@ public class Server implements Hello {
         System.err.println("is master");
         isMaster = true;
       }
-      //currProvider = args[1];
+      currProvider = args[1];
       try{
         InetAddress inetAddress = InetAddress.getLocalHost();
         selfIp = inetAddress.getHostAddress();
@@ -91,12 +91,12 @@ public class Server implements Hello {
       try {
           Registry registry = LocateRegistry.getRegistry(host, 8699);
           Hello stub = (Hello) registry.lookup("Hello");
-          String response = stub.sayHello();
-          // while(response != null){
-          //   System.out.println(response);
-          //   //response = stub.sayHello();
-          //   response = stub.sayHello();
-          // }
+          String response = stub.checkCounter();
+          while(response != null){
+            System.out.println(response);
+            //response = stub.sayHello();
+            response = stub.checkCounter();
+          }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
@@ -104,9 +104,10 @@ public class Server implements Hello {
 
     }
 
+    private static Server obj;
     private static void startServer() {
       try {
-          Server obj = new Server();
+          obj = new Server();
           Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
           // Bind the remote object's stub in the registry
           Registry registry = LocateRegistry.createRegistry(8699);
