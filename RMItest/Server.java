@@ -17,19 +17,21 @@ import java.util.*;
 
 public class Server implements Hello {
   //ArrayList<ArrayList<Long>> dataBlock;
-  //ArrayList<String> nodeIndex;
+  ArrayList<ArrayList<String>> nodeIndex = new ArrayList<ArrayList<String>>();
+  public static Integer MAXCHAINLEN = 6;
   //Integer maxSize = 250000;
   //Integer dataBlockSize;
   //Integer cacheSize;
-  //String masterIp
   public static String selfIp;
   public static String currProvider;
   // //String filename;
   public static boolean isMaster = false;
   // //Integer currOffset = 0;
-  public static Integer testcounter = 0;
+  public static Integer testcounter = 1;
 
-    public Server() {}
+  public static String masterIp = "54.209.66.61";
+
+  public Server() {}
 /*
 ######################### BEGIN REMOTE FUNCTIONS ###########################
 */
@@ -42,22 +44,37 @@ public class Server implements Hello {
       return response;
     }
 
+    public synchronized String join(String newIp) {
+
+      System.out.println("Servicing join################################ from " + newIp);
+      if (nodeIndex.size() == 0) {
+        System.out.println("Here1");
+        ArrayList<String> newChain = new ArrayList<String>();
+        nodeIndex.add(newChain);
+        nodeIndex.get(0).add(newIp);
+        System.out.println("BLAHHHH" + nodeIndex.get(0).get(0));
+        printIndex();
+        return masterIp;
+      }
+      System.out.println("Here2");
+      String newProvider = nodeIndex.get(nodeIndex.size()-1).get(nodeIndex.get(nodeIndex.size()-1).size()-1);
+      nodeIndex.get(nodeIndex.size()-1).add(newIp);
+      printIndex();
+      return newProvider;
+    }
+
 /*
 ######################### END REMOTE FUNCTIONS ###########################
 */
+
+    // command line args [masterIp][selfIp]
     public static void main(String args[]) {
-      if (args[0].toString().equals("1")) {
+      if (args[0].toString().equals(args[1].toString())) {
         System.err.println("is master");
         isMaster = true;
       }
-      currProvider = args[1];
-      try{
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        selfIp = inetAddress.getHostAddress();
-      } catch (Exception e){
-        System.err.println("Server exception: " + e.toString());
-        e.printStackTrace();
-      }
+      masterIp = args[0].toString();
+      selfIp = args[1].toString();
 
       startServer();
 
@@ -70,6 +87,7 @@ public class Server implements Hello {
         //updateFromFile();
         t1.start();
       } else {
+        requestJoin();
         requestData();
       }
     }
@@ -87,6 +105,7 @@ public class Server implements Hello {
     }
 
     private static void requestData() {
+      System.out.println("Requesting Data from Node: " + currProvider);
       String host = currProvider;
       try {
           Registry registry = LocateRegistry.getRegistry(host, 8699);
@@ -94,7 +113,6 @@ public class Server implements Hello {
           String response = stub.checkCounter();
           while(response != null){
             System.out.println(response);
-            //response = stub.sayHello();
             response = stub.checkCounter();
             testcounter = Integer.parseInt(response);
           }
@@ -104,6 +122,24 @@ public class Server implements Hello {
         }
 
     }
+
+    private static void requestJoin() {
+      System.out.println("Requesting Join");
+      String host = masterIp;
+      try {
+          Registry registry = LocateRegistry.getRegistry(host, 8699);
+          Hello stub = (Hello) registry.lookup("Hello");
+          String response = stub.join(selfIp);
+          currProvider = response;
+          System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
+          // TODO:test for failure
+      }
+      catch (Exception e) {
+          System.err.println("Client exception: " + e.toString());
+          e.printStackTrace();
+      }
+    }
+
 
     private static Server obj;
     private static void startServer() {
@@ -123,5 +159,16 @@ public class Server implements Hello {
 
     public static void setMaster(boolean a){
       isMaster = a;
+    }
+
+    public void printIndex() {
+      for(int i = 0; i < nodeIndex.size(); i++) {
+        System.out.print("Chain num " + i);
+        for(int j = 0; j < nodeIndex.get(i).size(); j++) {
+          System.out.print("Node num " + j);
+          System.out.print(nodeIndex.get(i).get(j));
+        }
+        System.out.print("\n");
+      }
     }
 }
