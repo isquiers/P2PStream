@@ -44,6 +44,7 @@ public class Server implements Hello {
       return response;
     }
 
+    // master only
     public synchronized String join(String newIp) {
 
       System.out.println("Servicing join################################ from " + newIp);
@@ -61,6 +62,22 @@ public class Server implements Hello {
       nodeIndex.get(nodeIndex.size()-1).add(newIp);
       printIndex();
       return newProvider;
+    }
+
+    public synchronized String removeNode(String deadNode) {
+      for (int i = 0; i < nodeIndex.size(); i++) {
+        int removal = nodeIndex[i].indexOf(deadNode);
+        if (removal != -1) {
+          System.out.println("removing node " + nodeIndex.get(removal));
+          nodeIndex.remove(removal);
+          if(removal == 0) {
+            return masterIp;
+          }
+          System.out.println("returing node " + nodeIndex.get(removal - 1));
+          printIndex();
+          return nodeIndex.get(removal - 1);
+        }
+      }
     }
 
 /*
@@ -88,7 +105,24 @@ public class Server implements Hello {
         t1.start();
       } else {
         requestJoin();
-        requestData();
+        if (requestData() == 1) {
+          System.out.println("request Data failed, requesting new Provider");
+        }
+      }
+    }
+
+    private static Integer requestNewProvider() {
+      try {
+        Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        String response = stub.removeNode(currProvider);
+        currProvider = response;
+        System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
+        // TODO:test for failure
+      } catch (Exception e) {
+        System.err.println("Master Failure");
+        System.err.println("Client exception: " + e.toString());
+        e.printStackTrace();
       }
     }
 
@@ -108,18 +142,19 @@ public class Server implements Hello {
       System.out.println("Requesting Data from Node: " + currProvider);
       String host = currProvider;
       try {
-          Registry registry = LocateRegistry.getRegistry(host, 8699);
-          Hello stub = (Hello) registry.lookup("Hello");
-          String response = stub.checkCounter();
-          while(response != null){
-            System.out.println(response);
-            response = stub.checkCounter();
-            testcounter = Integer.parseInt(response);
-          }
-        } catch (Exception e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+        Registry registry = LocateRegistry.getRegistry(host, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        String response = stub.checkCounter();
+        while(response != null){
+          System.out.println(response);
+          response = stub.checkCounter();
+          testcounter = Integer.parseInt(response);
         }
+      } catch (Exception e) {
+          System.err.println("Client exception: " + e.toString());
+          e.printStackTrace();
+
+      }
 
     }
 
@@ -162,9 +197,9 @@ public class Server implements Hello {
     }
 
     public void printIndex() {
-      for(int i = 0; i < nodeIndex.size(); i++) {
+      for (int i = 0; i < nodeIndex.size(); i++) {
         System.out.print("Chain num " + i);
-        for(int j = 0; j < nodeIndex.get(i).size(); j++) {
+        for (int j = 0; j < nodeIndex.get(i).size(); j++) {
           System.out.print("Node num " + j);
           System.out.print(nodeIndex.get(i).get(j));
         }

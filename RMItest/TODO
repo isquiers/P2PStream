@@ -1,0 +1,20 @@
+DONE:
+  requestJoin
+  Join
+  removeDeadNode
+  requestNewProvider
+
+TODO next:
+  Notice dead node (on failed RMI)
+  Add time stamps to use as new chain metric
+    offset =
+
+TODO later:
+
+  make node lookups faster, maybe hashmap? (Ip -> [chain][index])... but wont update
+  Leave willingly ( call remove dead node with self, update down stream node with new provider )
+
+TESTABLE Variables
+  offset threshold
+  cache size
+  num missed DB due to discrepancy
