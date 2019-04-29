@@ -54,6 +54,18 @@ public class Server implements Hello {
       try{
         InetAddress inetAddress = InetAddress.getLocalHost();
         selfIp = inetAddress.getHostAddress();
+        String instanceId = EC2MetadataUtils.getInstanceId();
+        AmazonEC2 awsEC2client = AmazonEC2ClientBuilder.defaultClient();
+        selfIp = awsEC2client.describeInstances(new DescribeInstancesRequest()
+                      .withInstanceIds(instanceId))
+                        .getReservations()
+                        .stream()
+                        .map(Reservation::getInstances)
+                        .flatMap(List::stream)
+                        .findFirst()
+                        .map(Instance::getPublicIpAddress)
+                        .orElse(null);
+        System.out.println(selfIp);
       } catch (Exception e){
         System.err.println("Server exception: " + e.toString());
         e.printStackTrace();
