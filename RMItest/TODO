@@ -3,17 +3,21 @@ DONE:
   Join
   removeDeadNode
   requestNewProvider
+  Timing request data.
+  Datablock done -- timestamp in ms and 2000000 bytes of 'a's delimited by a comma
 
 TODO next:
-  Add time stamps to use as new chain metric
-  Set up request in a time chain instead of while loop.
+  fix output of print index so its more legible
+  use this to figure out where remove index/request new data is going wrong
+  send dataBlock
+  compare datablock timestamp to local timestamp and calculate difference
 
 
 TODO later:
 
   make node lookups faster, maybe hashmap? (Ip -> [chain][index])... but wont update
   Leave willingly ( call remove dead node with self, update down stream node with new provider )
-  
+
 TESTABLE Variables
   offset threshold
   cache size

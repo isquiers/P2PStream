@@ -95,6 +95,12 @@ public class Server implements Hello {
       masterIp = args[0].toString();
       selfIp = args[1].toString();
 
+      String cat = createDb();
+      System.out.println(cat.length());
+      System.out.println(cat);
+
+
+      if (true) { return; }
       startServer();
 
       if (isMaster) {
@@ -195,8 +201,16 @@ public class Server implements Hello {
       }
     }
 
-    public static void setMaster(boolean a){
+    public static void setMaster(boolean a) {
       isMaster = a;
+    }
+
+    public static String createDb() {
+      Long time = System.currentTimeMillis();
+      char[] garbage = new char[2000000];
+      Arrays.fill(garbage, 'a');
+      String Db = new String(garbage);
+      return time + "," + Db;
     }
 
     public void printIndex() {
