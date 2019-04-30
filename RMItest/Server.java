@@ -80,7 +80,7 @@ public class Server implements Hello {
           if(removal == 0) {
             return masterIp;
           }
-          System.out.println("returing node " + nodeIndex.get(1).get(removal - 1));
+          System.out.println("returing node " + nodeIndex.get(i).get(removal - 1));
           printIndex();
           return nodeIndex.get(i).get(removal - 1);
         }
