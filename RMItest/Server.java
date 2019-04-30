@@ -143,22 +143,23 @@ public class Server implements Hello {
     }
 
     private static void requestData() {
-      System.out.println("Requesting Data from Node: " + currProvider);
-      String host = currProvider;
-      try {
-        Registry registry = LocateRegistry.getRegistry(host, 8699);
-        Hello stub = (Hello) registry.lookup("Hello");
-        String response = stub.checkCounter();
-        while(response != null){
-          System.out.println(response);
-          response = stub.checkCounter();
-          testcounter = Integer.parseInt(response);
+      TimerTask repeatedTask = new TimerTask() {
+        public void run() {
+          System.out.println("Requesting Data from Node: " + currProvider);
+          String host = currProvider;
+          try {
+            Registry registry = LocateRegistry.getRegistry(host, 8699);
+            Hello stub = (Hello) registry.lookup("Hello");
+            String response = stub.checkCounter();
+            testcounter = Integer.parseInt(response);
+          } catch (Exception e) {
+              System.err.println("Client exception: " + e.toString());
+              e.printStackTrace();
+          }
         }
-      } catch (Exception e) {
-          System.err.println("Client exception: " + e.toString());
-          e.printStackTrace();
       }
-
+      Timer timer = new Timer();
+      timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
     }
 
     private static void requestJoin() {

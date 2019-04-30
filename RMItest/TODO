@@ -5,8 +5,8 @@ DONE:
   requestNewProvider
 
 TODO next:
-  Notice dead node (on failed RMI)
   Add time stamps to use as new chain metric
+  Set up request in a time chain instead of while loop.
     offset =
 
 TODO later:
