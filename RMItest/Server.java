@@ -107,11 +107,7 @@ public class Server implements Hello {
         t1.start();
       } else {
         requestJoin();
-        while(true) {
-          requestData();
-          System.out.println("request Data failed, requesting new Provider");
-          requestNewProvider();
-        }
+        requestData();
       }
     }
 
@@ -152,9 +148,12 @@ public class Server implements Hello {
             Hello stub = (Hello) registry.lookup("Hello");
             String response = stub.checkCounter();
             testcounter = Integer.parseInt(response);
+            System.out.println(testcounter);
           } catch (Exception e) {
               System.err.println("Client exception: " + e.toString());
               e.printStackTrace();
+              System.out.println("request Data failed, requesting new Provider");
+              requestNewProvider();
           }
         }
       };
