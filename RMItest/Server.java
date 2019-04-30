@@ -157,7 +157,7 @@ public class Server implements Hello {
               e.printStackTrace();
           }
         }
-      }
+      };
       Timer timer = new Timer();
       timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
     }
