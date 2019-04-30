@@ -60,7 +60,6 @@ public class Server implements Hello {
         ArrayList<String> newChain = new ArrayList<String>();
         nodeIndex.add(newChain);
         nodeIndex.get(0).add(newIp);
-        System.out.println("BLAHHHH" + nodeIndex.get(0).get(0));
         printIndex();
         return masterIp;
       }
@@ -111,6 +110,7 @@ public class Server implements Hello {
       startServer();
 
       if (isMaster) {
+        requestJoin();
         Thread t1 = new Thread(new Runnable() {
           public void run() {
             updateCounter();
@@ -222,9 +222,9 @@ public class Server implements Hello {
 
     public void printIndex() {
       for (int i = 0; i < nodeIndex.size(); i++) {
-        System.out.print(" Chain num " + i);
+        System.out.println(" Chain index " + i + ": ");
         for (int j = 0; j < nodeIndex.get(i).size(); j++) {
-          System.out.print(" Node num " + j + " ");
+          System.out.print(" Node index " + j + ": ");
           System.out.print(nodeIndex.get(i).get(j) + " ");
         }
         System.out.print("\n");
