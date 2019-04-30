@@ -42,17 +42,19 @@ public class Server implements Hello {
       return "Hello, world!";
     }
 
-    //testing to simulate 
+    //testing to simulate data being live streamed
     public String checkCounter() {
       String response = testcounter.toString();
       return response;
     }
 
-    // master only
+    //this is called imediatly after a node that is not the Master is activated.
     public synchronized String join(String newIp) {
 
 
       System.out.println("Servicing join################################ from " + newIp);
+
+      //if it is the master
       if (nodeIndex.size() == 0) {
         System.out.println("Here1");
         ArrayList<String> newChain = new ArrayList<String>();
