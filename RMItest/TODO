@@ -4,10 +4,19 @@ DONE:
   removeDeadNode
   requestNewProvider
   Timing request data.
+<<<<<<< HEAD
   Data block done -- timestamp in ms and 2000000 bytes of 'a's delimited by a comma
   fix output of print index so its more legible
 
 TODO next:
+=======
+  Datablock done -- timestamp in ms and 2000000 bytes of 'a's delimited by a comma
+  fix output of print index so its more legible
+
+TODO next:
+
+  use this to figure out where remove index/request new data is going wrong
+>>>>>>> c00a424469e7cee32e2b84350fad57c30ef49c59
   send dataBlock
   compare data block timestamp to local timestamp and calculate difference
 

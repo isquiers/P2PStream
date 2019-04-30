@@ -27,12 +27,14 @@ public class Server implements Hello {
   // //String filename;
   public static boolean isMaster = false;
   // //Integer currOffset = 0;
-  public static Integer testcounter = 1;
+  public static Integer testcounter = 0;
 
   public static String masterIp = "54.209.66.61";
 
   //refers to how many chains from the Master there currently are
   public static int chainIndex = 0;
+
+
 
   public Server() {}
 /*
@@ -101,12 +103,6 @@ public class Server implements Hello {
       masterIp = args[0].toString();
       selfIp = args[1].toString();
 
-      //String cat = createDb();
-      //System.out.println(cat.length());
-      //System.out.println(cat);
-
-
-      //if (true) { return; }
       startServer();
 
       if (isMaster) {
@@ -178,12 +174,15 @@ public class Server implements Hello {
       System.out.println("Requesting Join");
       String host = masterIp;
       try {
-          Registry registry = LocateRegistry.getRegistry(host, 8699);
-          Hello stub = (Hello) registry.lookup("Hello");
-          String response = stub.join(selfIp);
-          currProvider = response;
-          System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
-          // TODO:test for failure
+        Registry registry = LocateRegistry.getRegistry(host, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        String response = stub.join(selfIp);
+        currProvider = response;
+        if(currProvider.equals(selfIp) && !isMaster) {
+          requestNewProvider();
+        }
+        System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
+        // TODO:test for failure
       }
       catch (Exception e) {
           System.err.println("Client exception: " + e.toString());
@@ -200,7 +199,6 @@ public class Server implements Hello {
           // Bind the remote object's stub in the registry
           Registry registry = LocateRegistry.createRegistry(8699);
           registry.bind("Hello", stub);
-
           System.err.println("Server ready");
       } catch (Exception e) {
           System.err.println("Server exception: " + e.toString());
@@ -213,11 +211,12 @@ public class Server implements Hello {
     }
 
     public static String createDb() {
+      logClock += 1;
       Long time = System.currentTimeMillis();
       char[] garbage = new char[2000000];
       Arrays.fill(garbage, 'a');
       String Db = new String(garbage);
-      return time + "," + Db;
+      return logClock + "," + time + "," + Db;
     }
 
     public void printIndex() {
