@@ -178,12 +178,15 @@ public class Server implements Hello {
       System.out.println("Requesting Join");
       String host = masterIp;
       try {
-          Registry registry = LocateRegistry.getRegistry(host, 8699);
-          Hello stub = (Hello) registry.lookup("Hello");
-          String response = stub.join(selfIp);
-          currProvider = response;
-          System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
-          // TODO:test for failure
+        Registry registry = LocateRegistry.getRegistry(host, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        String response = stub.join(selfIp);
+        if(response.equals(selfIp) && !isMaster) {
+          response = requestNewProvider(response);
+        }
+        currProvider = response;
+        System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
+        // TODO:test for failure
       }
       catch (Exception e) {
           System.err.println("Client exception: " + e.toString());
