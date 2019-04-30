@@ -75,7 +75,7 @@ public class Server implements Hello {
         int removal = nodeIndex.get(i).indexOf(deadNode);
         if (removal != -1) {
           System.out.println("removing node " + nodeIndex.get(i).get(removal));
-          nodeIndex.remove(removal);
+          nodeIndex.get(chainIndex).remove(removal);
           if(removal == 0) {
             return masterIp;
           }
@@ -101,9 +101,9 @@ public class Server implements Hello {
       masterIp = args[0].toString();
       selfIp = args[1].toString();
 
-      String cat = createDb();
-      System.out.println(cat.length());
-      System.out.println(cat);
+      //String cat = createDb();
+      //System.out.println(cat.length());
+      //System.out.println(cat);
 
 
       //if (true) { return; }
