@@ -31,6 +31,9 @@ public class Server implements Hello {
 
   public static String masterIp = "54.209.66.61";
 
+  //refers to how many chains from the Master there currently are
+  public static int chainIndex = 0;
+
   public Server() {}
 /*
 ######################### BEGIN REMOTE FUNCTIONS ###########################
@@ -39,6 +42,7 @@ public class Server implements Hello {
       return "Hello, world!";
     }
 
+    //testing to simulate 
     public String checkCounter() {
       String response = testcounter.toString();
       return response;
@@ -46,6 +50,7 @@ public class Server implements Hello {
 
     // master only
     public synchronized String join(String newIp) {
+
 
       System.out.println("Servicing join################################ from " + newIp);
       if (nodeIndex.size() == 0) {
@@ -58,8 +63,8 @@ public class Server implements Hello {
         return masterIp;
       }
       System.out.println("Here2");
-      String newProvider = nodeIndex.get(nodeIndex.size()-1).get(nodeIndex.get(nodeIndex.size()-1).size()-1);
-      nodeIndex.get(nodeIndex.size()-1).add(newIp);
+      String newProvider = nodeIndex.get(chainIndex).get(nodeIndex.get(chainIndex).size()-1);
+      nodeIndex.get(chainIndex).add(newIp);
       printIndex();
       return newProvider;
     }
@@ -100,7 +105,7 @@ public class Server implements Hello {
       System.out.println(cat);
 
 
-      if (true) { return; }
+      //if (true) { return; }
       startServer();
 
       if (isMaster) {
@@ -215,10 +220,10 @@ public class Server implements Hello {
 
     public void printIndex() {
       for (int i = 0; i < nodeIndex.size(); i++) {
-        System.out.print("Chain num " + i);
+        System.out.print(" Chain num " + i);
         for (int j = 0; j < nodeIndex.get(i).size(); j++) {
-          System.out.print("Node num " + j);
-          System.out.print(nodeIndex.get(i).get(j));
+          System.out.print(" Node num " + j + " ");
+          System.out.print(nodeIndex.get(i).get(j) + " ");
         }
         System.out.print("\n");
       }
