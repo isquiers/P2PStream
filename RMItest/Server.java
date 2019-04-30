@@ -66,7 +66,7 @@ public class Server implements Hello {
 
     public synchronized String removeNode(String deadNode) {
       for (int i = 0; i < nodeIndex.size(); i++) {
-        int removal = nodeIndex[i].indexOf(deadNode);
+        int removal = nodeIndex.get(i).indexOf(deadNode);
         if (removal != -1) {
           System.out.println("removing node " + nodeIndex.get(removal));
           nodeIndex.remove(removal);
@@ -75,9 +75,11 @@ public class Server implements Hello {
           }
           System.out.println("returing node " + nodeIndex.get(removal - 1));
           printIndex();
-          return nodeIndex.get(removal - 1);
+          return nodeIndex.get(i).get(removal - 1);
         }
       }
+      System.out.println("NODE TO REMOVE NOT FOUND");
+      return "CATS";
     }
 
 /*
