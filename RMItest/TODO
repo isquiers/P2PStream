@@ -7,13 +7,13 @@ DONE:
 TODO next:
   Add time stamps to use as new chain metric
   Set up request in a time chain instead of while loop.
-    offset =
+
 
 TODO later:
 
   make node lookups faster, maybe hashmap? (Ip -> [chain][index])... but wont update
   Leave willingly ( call remove dead node with self, update down stream node with new provider )
-
+  
 TESTABLE Variables
   offset threshold
   cache size

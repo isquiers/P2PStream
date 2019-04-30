@@ -68,12 +68,12 @@ public class Server implements Hello {
       for (int i = 0; i < nodeIndex.size(); i++) {
         int removal = nodeIndex.get(i).indexOf(deadNode);
         if (removal != -1) {
-          System.out.println("removing node " + nodeIndex.get(removal));
+          System.out.println("removing node " + nodeIndex.get(i).get(removal));
           nodeIndex.remove(removal);
           if(removal == 0) {
             return masterIp;
           }
-          System.out.println("returing node " + nodeIndex.get(removal - 1));
+          System.out.println("returing node " + nodeIndex.get(1).get(removal - 1));
           printIndex();
           return nodeIndex.get(i).get(removal - 1);
         }
