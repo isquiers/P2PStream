@@ -105,13 +105,15 @@ public class Server implements Hello {
         t1.start();
       } else {
         requestJoin();
-        if (requestData() == 1) {
+        while(true) {
+          requestData();
           System.out.println("request Data failed, requesting new Provider");
+          requestNewProvider();
         }
       }
     }
 
-    private static Integer requestNewProvider() {
+    private static void requestNewProvider() {
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
         Hello stub = (Hello) registry.lookup("Hello");
@@ -153,7 +155,6 @@ public class Server implements Hello {
       } catch (Exception e) {
           System.err.println("Client exception: " + e.toString());
           e.printStackTrace();
-
       }
 
     }
