@@ -34,6 +34,10 @@ public class Server implements Hello {
   //refers to how many chains from the Master there currently are
   public static int chainIndex = 0;
 
+  public static String currDb;
+
+  public static Integer logClock = 0;
+
 
 
   public Server() {}
@@ -46,14 +50,13 @@ public class Server implements Hello {
 
     //testing to simulate data being live streamed
     public String checkCounter() {
-      String response = testcounter.toString();
+      //String response = testcounter.toString();
+      String response = currDb;
       return response;
     }
 
     //this is called imediatly after a node that is not the Master is activated.
     public synchronized String join(String newIp) {
-
-
       System.out.println("Servicing join################################ from " + newIp);
 
       //if it is the master
@@ -138,8 +141,8 @@ public class Server implements Hello {
     private static Integer updateCounter() {
       TimerTask repeatedTask = new TimerTask() {
         public void run() {
-          testcounter++;
-          System.err.println(testcounter);
+          currDb = createDb();
+          System.err.println(currDb.substring(0,20));
         }
       };
       Timer timer = new Timer();
