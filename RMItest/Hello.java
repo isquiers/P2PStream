@@ -44,4 +44,5 @@ public interface Hello extends Remote {
     String checkCounter() throws RemoteException;
     String join(String selfIp) throws RemoteException;
     String removeNode(String deadNode) throws RemoteException;
+    String createDb() throws RemoteException;
 }
