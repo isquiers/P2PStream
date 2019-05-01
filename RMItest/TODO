@@ -4,6 +4,7 @@ DONE:
   removeDeadNode
   requestNewProvider
   Timing request data.
+<<<<<<< HEAD
   Datablock done -- timestamp in ms and 2000000 bytes of 'a's delimited by a comma
   fix output of print index so its more legible
   send dataBlock
@@ -11,8 +12,16 @@ DONE:
 
 TODO next:
   make the cache
+=======
+  Data block done -- timestamp in ms and 2000000 bytes of 'a's delimited by a comma
+  fix output of print index so its more legible
+  send dataBlock
+>>>>>>> b9957fb08edec33a7d3cb3dd17e2d4bdd167539d
   compare data block timestamp to local timestamp and calculate difference
   start new chain() function
+
+TODO next:
+  Cacheing stuff.
 
 TODO later:
 

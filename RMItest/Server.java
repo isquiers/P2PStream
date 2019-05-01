@@ -36,7 +36,7 @@ public class Server implements Hello {
 
   public static String currDb;
 
-  public static Integer logClock = 0;
+  public static int logClock = 0;
 
 
 
@@ -93,6 +93,15 @@ public class Server implements Hello {
       return "CATS";
     }
 
+    public String createDb() {
+      logClock += 1;
+      Long time = System.currentTimeMillis();
+      char[] garbage = new char[2000000];
+      Arrays.fill(garbage, 'a');
+      String Db = new String(garbage);
+      return logClock + "," + time + "," + Db;
+    }
+
 /*
 ######################### END REMOTE FUNCTIONS ###########################
 */
@@ -118,6 +127,7 @@ public class Server implements Hello {
         //updateFromFile();
         t1.start();
       } else {
+        createQueue();
         requestJoin();
         requestData();
       }
@@ -161,6 +171,12 @@ public class Server implements Hello {
             String response = stub.checkCounter();
             testcounter = Integer.parseInt(response);
             System.out.println(testcounter);
+
+            String dBlock = stub.createDb();
+            String[] timestamp = dBlock.split(",");
+            Long timestampMills = Long.parseLong(timestamp[1]);
+            Long difference = System.currentTimeMillis() - timestampMills;
+            System.out.println("This is time differnce milleseconds: " + difference);
           } catch (Exception e) {
               System.err.println("Client exception: " + e.toString());
               e.printStackTrace();
@@ -213,15 +229,6 @@ public class Server implements Hello {
       isMaster = a;
     }
 
-    public static String createDb() {
-      logClock += 1;
-      Long time = System.currentTimeMillis();
-      char[] garbage = new char[2000000];
-      Arrays.fill(garbage, 'a');
-      String Db = new String(garbage);
-      return logClock + "," + time + "," + Db;
-    }
-
     public void printIndex() {
       for (int i = 0; i < nodeIndex.size(); i++) {
         System.out.println(" Chain index " + i + ": ");
@@ -231,5 +238,10 @@ public class Server implements Hello {
         }
         System.out.print("\n");
       }
+    }
+
+
+    public static void createQueue(){
+      dataQueue = new LinkedList<String>();
     }
 }
