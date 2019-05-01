@@ -171,8 +171,8 @@ public class Server implements Hello {
             String response = stub.checkCounter();
             testcounter = Integer.parseInt(response);
             System.out.println(testcounter);
-
-            String dBlock = stub.createDb();
+            
+            String dBlock = stub.checkCounter();
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
             Long difference = System.currentTimeMillis() - timestampMills;
