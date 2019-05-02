@@ -128,6 +128,7 @@ public class Server implements Hello {
     }
 
     private static void requestNewProvider() {
+      System.out.println("Requesting new Provider");
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
         Hello stub = (Hello) registry.lookup("Hello");
