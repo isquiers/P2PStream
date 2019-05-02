@@ -38,6 +38,8 @@ public class Server implements Hello {
 
   public static int logClock = 0;
 
+  public static Queue<String> dataQueue;
+
 
 
   public Server() {}
@@ -93,14 +95,6 @@ public class Server implements Hello {
       return "CATS";
     }
 
-    public String createDb() {
-      logClock += 1;
-      Long time = System.currentTimeMillis();
-      char[] garbage = new char[2000000];
-      Arrays.fill(garbage, 'a');
-      String Db = new String(garbage);
-      return logClock + "," + time + "," + Db;
-    }
 
 /*
 ######################### END REMOTE FUNCTIONS ###########################
@@ -163,15 +157,12 @@ public class Server implements Hello {
     private static void requestData() {
       TimerTask repeatedTask = new TimerTask() {
         public void run() {
-          System.out.println("Requesting Data from Node: " + currProvider);
+          // System.out.println("Requesting Data from Node: " + currProvider);
           String host = currProvider;
           try {
             Registry registry = LocateRegistry.getRegistry(host, 8699);
             Hello stub = (Hello) registry.lookup("Hello");
-            String response = stub.checkCounter();
-            testcounter = Integer.parseInt(response);
-            System.out.println(testcounter);
-            
+
             String dBlock = stub.checkCounter();
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
@@ -243,5 +234,14 @@ public class Server implements Hello {
 
     public static void createQueue(){
       dataQueue = new LinkedList<String>();
+    }
+
+    public static String createDb() {
+      logClock += 1;
+      Long time = System.currentTimeMillis();
+      char[] garbage = new char[2000000];
+      Arrays.fill(garbage, 'a');
+      String Db = new String(garbage);
+      return logClock + "," + time + "," + Db;
     }
 }
