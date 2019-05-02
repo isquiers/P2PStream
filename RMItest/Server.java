@@ -34,7 +34,7 @@ public class Server implements Hello {
   //refers to how many chains from the Master there currently are
   public static int chainIndex = 0;
 
-  public static String currDb;
+  public static String currDb = new char[20005000];
 
   public static int logClock = 0;
 
