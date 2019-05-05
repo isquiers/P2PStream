@@ -40,8 +40,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Hello extends Remote {
-    String sayHello() throws RemoteException;
-    String checkCounter() throws RemoteException;
-    String join(String selfIp) throws RemoteException;
-    String removeNode(String deadNode) throws RemoteException;
+  void updateChain(int newChain) throws RemoteException;
+  String checkCounter() throws RemoteException;
+  String join(String selfIp) throws RemoteException;
+  String removeNode(String deadNode, int chain) throws RemoteException;
+  String moveNode(int currChain, String mover) throws RemoteException;
 }

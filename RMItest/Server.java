@@ -32,9 +32,9 @@ public class Server implements Hello {
   public static String masterIp = "54.209.66.61";
 
   //refers to how many chains from the Master there currently are
-  public static int chainIndex = 0;
+  public static int currChainIndex = 0;
 
-  public static String currDb = new char[20005000];
+  public static String currDb;
 
   public static int logClock = 0;
 
@@ -46,9 +46,6 @@ public class Server implements Hello {
 /*
 ######################### BEGIN REMOTE FUNCTIONS ###########################
 */
-    public String sayHello() {
-      return "Hello, world!";
-    }
 
     //testing to simulate data being live streamed
     public String checkCounter() {
@@ -57,11 +54,42 @@ public class Server implements Hello {
       return response;
     }
 
+    public void updateChain (int newChain) {
+      currChainIndex = newChain;
+    }
+
+    // executed by master
+    // returns new Provider
+    public synchronized String moveNode(int currChain, String mover) {
+      System.out.println("Node " + mover + " Requesting Move from Chain " + currChain);
+      int moveMe = nodeIndex.get(currChain).indexOf(mover);
+      if (moveMe == -1) {
+        //return Failure
+        System.out.println("Failed lookup when moving node");
+      }
+      int newChainIndex = currChain + 1;
+      if (nodeIndex.size() == newChainIndex) { //newchain will return null so we create new chain
+        nodeIndex.add(new ArrayList<String>());
+        nodeIndex.get(newChainIndex).add(masterIp);
+      }
+      String newProvider = nodeIndex.get(newChainIndex).get(nodeIndex.get(newChainIndex).size() - 1);
+      String movingNode = nodeIndex.get(currChain).get(moveMe);
+      while (movingNode != null) { // move all nodes downstream of requestor
+        nodeIndex.get(newChainIndex).add(movingNode); // add them to new chain
+        newChainAlert(movingNode, newChainIndex); // update them
+        nodeIndex.get(currChain).remove(moveMe); // remove them from the old chain
+        movingNode = nodeIndex.get(currChain).get(moveMe);
+      }
+      return newProvider;
+    }
+
+    //executed by master
     //this is called imediatly after a node that is not the Master is activated.
     public synchronized String join(String newIp) {
-      System.out.println("Servicing join################################ from " + newIp);
+      System.out.println("Servicing join ################################ from " + newIp);
 
       //if it is the master
+      // we could also do this in the master main loop, to take out this block
       if (nodeIndex.size() == 0) {
         System.out.println("Here1");
         ArrayList<String> newChain = new ArrayList<String>();
@@ -70,29 +98,30 @@ public class Server implements Hello {
         printIndex();
         return masterIp;
       }
+      // join always initiates you at the end of chain 0, assuming you will request a change if it's necessary
       System.out.println("Here2");
-      String newProvider = nodeIndex.get(chainIndex).get(nodeIndex.get(chainIndex).size()-1);
-      nodeIndex.get(chainIndex).add(newIp);
+      String newProvider = nodeIndex.get(0).get(nodeIndex.get(0).size()-1);
+      nodeIndex.get(0).add(newIp);
       printIndex();
       return newProvider;
     }
 
-    public synchronized String removeNode(String deadNode) {
-      for (int i = 0; i < nodeIndex.size(); i++) {
-        int removal = nodeIndex.get(i).indexOf(deadNode);
-        if (removal != -1) {
-          System.out.println("removing node " + nodeIndex.get(i).get(removal));
-          nodeIndex.get(chainIndex).remove(removal);
-          if(removal == 0) {
-            return masterIp;
-          }
-          System.out.println("returing node " + nodeIndex.get(i).get(removal - 1));
-          printIndex();
-          return nodeIndex.get(i).get(removal - 1);
+    public synchronized String removeNode(String deadNode, int chain) {
+      System.out.println("Node removal requested");
+      int removal = nodeIndex.get(chain).indexOf(deadNode);
+      if (removal != -1) {
+        System.out.println("removing node " + nodeIndex.get(chain).get(removal));
+        nodeIndex.get(chain).remove(removal);
+        if(removal == 0) {
+          return masterIp;
         }
+        System.out.println("returing node " + nodeIndex.get(chain).get(removal - 1));
+        printIndex();
+        return nodeIndex.get(chain).get(removal - 1);
+      } else {
+        System.out.println("Node not Found");
+        return "Error";
       }
-      System.out.println("NODE TO REMOVE NOT FOUND");
-      return "CATS";
     }
 
 
@@ -127,12 +156,23 @@ public class Server implements Hello {
       }
     }
 
+    private static void newChainAlert(String recievingNode, int newChainIndex) {
+      try {
+        Registry registry = LocateRegistry.getRegistry(recievingNode, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        stub.updateChain(newChainIndex);
+      } catch (Exception e) {
+          System.err.println("Client exception: " + e.toString());
+          e.printStackTrace();
+      }
+    }
+
     private static void requestNewProvider() {
-      System.out.println("Requesting new Provider");
+      System.out.println("Requesting new Provider other than " + currProvider);
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
         Hello stub = (Hello) registry.lookup("Hello");
-        String response = stub.removeNode(currProvider);
+        String response = stub.removeNode(currProvider, currChainIndex);
         currProvider = response;
         System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
         // TODO:test for failure
@@ -165,6 +205,7 @@ public class Server implements Hello {
             Hello stub = (Hello) registry.lookup("Hello");
 
             String dBlock = stub.checkCounter();
+            currDb = dBlock;
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
             Long difference = System.currentTimeMillis() - timestampMills;
