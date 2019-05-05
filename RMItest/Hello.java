@@ -44,5 +44,5 @@ public interface Hello extends Remote {
   String checkCounter() throws RemoteException;
   String join(String selfIp) throws RemoteException;
   String removeNode(String deadNode, int chain) throws RemoteException;
-  String moveNode(int currChain, String mover) throws RemoteException;
+  String moveNode(String mover, int currChain) throws RemoteException;
 }

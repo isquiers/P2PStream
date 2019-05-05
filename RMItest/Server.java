@@ -8,39 +8,19 @@ import java.net.InetAddress;
 import java.lang.*;
 import java.util.*;
 
-// String selfIp;
-// String currProvider;
-// //String filename;
-// Boolean isMaster = false;
-// //Integer currOffset = 0;
-// Integer testcounter = 0;
-
 public class Server implements Hello {
   //ArrayList<ArrayList<Long>> dataBlock;
   ArrayList<ArrayList<String>> nodeIndex = new ArrayList<ArrayList<String>>();
-  public static Integer MAXCHAINLEN = 6;
-  //Integer maxSize = 250000;
-  //Integer dataBlockSize;
-  //Integer cacheSize;
   public static String selfIp;
   public static String currProvider;
-  // //String filename;
   public static boolean isMaster = false;
-  // //Integer currOffset = 0;
-  public static Integer testcounter = 0;
-
   public static String masterIp = "54.209.66.61";
-
-  //refers to how many chains from the Master there currently are
-  public static int currChainIndex = 0;
-
+  public static int currChainIndex = 0; // chain in which the current node resides
   public static String currDb;
-
   public static int logClock = 0;
-
   public static Queue<String> dataQueue;
-
-
+  public static int currClock;
+  public static int msThreshold = 1000; // offset in milleseconds
 
   public Server() {}
 /*
@@ -49,7 +29,6 @@ public class Server implements Hello {
 
     //testing to simulate data being live streamed
     public String checkCounter() {
-      //String response = testcounter.toString();
       String response = currDb;
       return response;
     }
@@ -60,7 +39,7 @@ public class Server implements Hello {
 
     // executed by master
     // returns new Provider
-    public synchronized String moveNode(int currChain, String mover) {
+    public synchronized String moveNode(String mover, int currChain) {
       System.out.println("Node " + mover + " Requesting Move from Chain " + currChain);
       int moveMe = nodeIndex.get(currChain).indexOf(mover);
       if (moveMe == -1) {
@@ -175,15 +154,28 @@ public class Server implements Hello {
         String response = stub.removeNode(currProvider, currChainIndex);
         currProvider = response;
         System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
-        // TODO:test for failure
       } catch (Exception e) {
-        System.err.println("Master Failure");
+        masterFailure();
         System.err.println("Client exception: " + e.toString());
         e.printStackTrace();
       }
     }
 
-    private static Integer updateCounter() {
+    private static void requestNewChain() {
+      try {
+        Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
+        Hello stub = (Hello) registry.lookup("Hello");
+        String response = stub.moveNode(selfIp, currChainIndex);
+        currProvider = response;
+
+      } catch (Exception e) {
+        masterFailure();
+        System.err.println("Client exception: " + e.toString());
+        e.printStackTrace();
+      }
+    }
+
+    private static int updateCounter() {
       TimerTask repeatedTask = new TimerTask() {
         public void run() {
           currDb = createDb();
@@ -208,11 +200,14 @@ public class Server implements Hello {
             currDb = dBlock;
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
-            Long difference = System.currentTimeMillis() - timestampMills;
-            System.out.println("This is time differnce milleseconds: " + difference);
+            Long offset = System.currentTimeMillis() - timestampMills;
+            System.out.println("This is time differnce milleseconds: " + offset);
+            if (offset > msThreshold) {
+
+            }
           } catch (Exception e) {
               System.err.println("Client exception: " + e.toString());
-              e.printStackTrace();
+              // e.printStackTrace();
               System.out.println("request Data failed, requesting new Provider");
               requestNewProvider();
           }
@@ -224,9 +219,8 @@ public class Server implements Hello {
 
     private static void requestJoin() {
       System.out.println("Requesting Join");
-      String host = masterIp;
       try {
-        Registry registry = LocateRegistry.getRegistry(host, 8699);
+        Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
         Hello stub = (Hello) registry.lookup("Hello");
         String response = stub.join(selfIp);
         currProvider = response;
@@ -237,8 +231,9 @@ public class Server implements Hello {
         // TODO:test for failure
       }
       catch (Exception e) {
-          System.err.println("Client exception: " + e.toString());
-          e.printStackTrace();
+        masterFailure();
+        System.err.println("Client exception: " + e.toString());
+        e.printStackTrace();
       }
     }
 
@@ -273,6 +268,10 @@ public class Server implements Hello {
       }
     }
 
+    public static void masterFailure() {
+      System.err.println("FATAL ERROR: Master Failure To Respond");
+      System.exit(0);
+    }
 
     public static void createQueue(){
       dataQueue = new LinkedList<String>();
