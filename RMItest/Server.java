@@ -202,8 +202,8 @@ public class Server implements Hello {
             Long timestampMills = Long.parseLong(timestamp[1]);
             Long offset = System.currentTimeMillis() - timestampMills;
             System.out.println("This is time differnce milleseconds: " + offset);
-            if (offset > msThreshold) {
-
+            if (offset > msThreshold && ) {
+              requestNewChain()
             }
           } catch (Exception e) {
               System.err.println("Client exception: " + e.toString());
@@ -224,7 +224,7 @@ public class Server implements Hello {
         Hello stub = (Hello) registry.lookup("Hello");
         String response = stub.join(selfIp);
         currProvider = response;
-        if(currProvider.equals(selfIp) && !isMaster) {
+        if(currProvider.equals(selfIp) && !currProvider.equals(masterIp)) {
           requestNewProvider();
         }
         System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
