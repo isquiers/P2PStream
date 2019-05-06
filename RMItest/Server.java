@@ -50,9 +50,12 @@ public class Server implements Hello {
       if (nodeIndex.size() == newChainIndex) { //newchain will return null so we create new chain
         nodeIndex.add(new ArrayList<String>());
         nodeIndex.get(newChainIndex).add(masterIp);
+        System.out.println("this is here");
       }
       String newProvider = nodeIndex.get(newChainIndex).get(nodeIndex.get(newChainIndex).size() - 1);
+      System.out.println(newProvider + " this is new provider");
       String movingNode = nodeIndex.get(currChain).get(moveMe);
+
       while (movingNode != null) { // move all nodes downstream of requestor
         nodeIndex.get(newChainIndex).add(movingNode); // add them to new chain
         newChainAlert(movingNode, newChainIndex); // update them
@@ -202,8 +205,8 @@ public class Server implements Hello {
             Long timestampMills = Long.parseLong(timestamp[1]);
             Long offset = System.currentTimeMillis() - timestampMills;
             System.out.println("This is time differnce milleseconds: " + offset);
-            if (offset > msThreshold && ) {
-              requestNewChain()
+            if (offset > msThreshold) {
+              requestNewChain();
             }
           } catch (Exception e) {
               System.err.println("Client exception: " + e.toString());
