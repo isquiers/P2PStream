@@ -1,4 +1,8 @@
-
+/* This is a node that implements a simulate live stream by passsing arbitrary datablocks
+ * at real time from a Node that considers itself the Master/Streamer.
+ * Created By Sean Cork & Ian Squires
+ *
+ */
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -8,21 +12,36 @@ import java.net.InetAddress;
 import java.lang.*;
 import java.util.*;
 
-public class Server implements Hello {
-  //ArrayList<ArrayList<Long>> dataBlock;
+
+/* This class both acts as a Streamer and a viewer.
+ *It dirrerentiats itself based on the command line arguments
+ */
+
+public class Server implements Node {
   ArrayList<ArrayList<String>> nodeIndex = new ArrayList<ArrayList<String>>();
   public static String selfIp;
+
+  //whose currently providing data
   public static String currProvider;
   public static boolean isMaster = false;
   public static String masterIp = "54.209.66.61";
-  public static int currChainIndex = 0; // chain in which the current node resides
+
+  // chain in which the current node resides
+  public static int currChainIndex = 0;
   public static String currDb;
+
+  //logical clock value to see where in the datablock it is requesting.
   public static int logClock = 0;
+
+  //might have some sort of cache dont know yet.
   public static Queue<String> dataQueue;
   public static int currClock;
-  public static int msThreshold = 1000; // offset in milleseconds
 
+  //Tolerable Threshold or maximum amount of time we are willing to have as the
+  //delay from the orginal stream
+  public static int msThreshold = 1000;
   public Server() {}
+
 /*
 ######################### BEGIN REMOTE FUNCTIONS ###########################
 */
@@ -56,10 +75,16 @@ public class Server implements Hello {
       System.out.println(newProvider + " this is new provider");
       String movingNode = nodeIndex.get(currChain).get(moveMe);
 
-      while (movingNode != null) { // move all nodes downstream of requestor
+      System.out.println("This is moving node " + movingNode);
+
+      while (moveMe != nodeIndex.get(currChain).size()-1) { // move all nodes downstream of requestor
         nodeIndex.get(newChainIndex).add(movingNode); // add them to new chain
         newChainAlert(movingNode, newChainIndex); // update them
+        String nodeRemoved = nodeIndex.get(currChain).get(moveMe);
+        System.out.println(nodeRemoved + " this is getting removed hopefully");
+        System.out.println("this is size before" + nodeIndex.get(currChain).size());
         nodeIndex.get(currChain).remove(moveMe); // remove them from the old chain
+        System.out.println("this is size after" + nodeIndex.get(currChain).size());
         movingNode = nodeIndex.get(currChain).get(moveMe);
       }
       return newProvider;
@@ -141,7 +166,7 @@ public class Server implements Hello {
     private static void newChainAlert(String recievingNode, int newChainIndex) {
       try {
         Registry registry = LocateRegistry.getRegistry(recievingNode, 8699);
-        Hello stub = (Hello) registry.lookup("Hello");
+        Node stub = (Node) registry.lookup("Node");
         stub.updateChain(newChainIndex);
       } catch (Exception e) {
           System.err.println("Client exception: " + e.toString());
@@ -153,7 +178,7 @@ public class Server implements Hello {
       System.out.println("Requesting new Provider other than " + currProvider);
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
-        Hello stub = (Hello) registry.lookup("Hello");
+        Node stub = (Node) registry.lookup("Node");
         String response = stub.removeNode(currProvider, currChainIndex);
         currProvider = response;
         System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
@@ -167,7 +192,7 @@ public class Server implements Hello {
     private static void requestNewChain() {
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
-        Hello stub = (Hello) registry.lookup("Hello");
+        Node stub = (Node) registry.lookup("Node");
         String response = stub.moveNode(selfIp, currChainIndex);
         currProvider = response;
 
@@ -197,7 +222,7 @@ public class Server implements Hello {
           String host = currProvider;
           try {
             Registry registry = LocateRegistry.getRegistry(host, 8699);
-            Hello stub = (Hello) registry.lookup("Hello");
+            Node stub = (Node) registry.lookup("Node");
 
             String dBlock = stub.checkCounter();
             currDb = dBlock;
@@ -205,7 +230,7 @@ public class Server implements Hello {
             Long timestampMills = Long.parseLong(timestamp[1]);
             Long offset = System.currentTimeMillis() - timestampMills;
             System.out.println("This is time differnce milleseconds: " + offset);
-            if (offset > msThreshold) {
+            if ((offset > msThreshold) && (!currProvider.equals(masterIp))) {
               requestNewChain();
             }
           } catch (Exception e) {
@@ -224,7 +249,7 @@ public class Server implements Hello {
       System.out.println("Requesting Join");
       try {
         Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
-        Hello stub = (Hello) registry.lookup("Hello");
+        Node stub = (Node) registry.lookup("Node");
         String response = stub.join(selfIp);
         currProvider = response;
         if(currProvider.equals(selfIp) && !currProvider.equals(masterIp)) {
@@ -245,10 +270,10 @@ public class Server implements Hello {
     private static void startServer() {
       try {
           obj = new Server();
-          Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
+          Node stub = (Node) UnicastRemoteObject.exportObject(obj, 8699);
           // Bind the remote object's stub in the registry
           Registry registry = LocateRegistry.createRegistry(8699);
-          registry.bind("Hello", stub);
+          registry.bind("Node", stub);
           System.err.println("Server ready");
       } catch (Exception e) {
           System.err.println("Server exception: " + e.toString());
@@ -273,7 +298,6 @@ public class Server implements Hello {
 
     public static void masterFailure() {
       System.err.println("FATAL ERROR: Master Failure To Respond");
-      System.exit(0);
     }
 
     public static void createQueue(){
