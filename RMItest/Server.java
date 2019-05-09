@@ -34,7 +34,7 @@ public class Server implements Node {
   public static int logClock = 0;
 
   //might have some sort of cache dont know yet.
-  public static Queue<String> dataQueue;
+  public static Deque<String> dataQueue;
   public static int currClock;
 
   //Tolerable Threshold or maximum amount of time we are willing to have as the
@@ -48,7 +48,14 @@ public class Server implements Node {
 
     //testing to simulate data being live streamed
     public String checkCounter() {
-      String response = currDb;
+      String response;
+      if(!currProvider.equals(masterIp)) {
+        response = dataQueue.peek();
+        dataQueue.removeFirst();
+      }
+      else{
+        response = currDb;
+      }
       return response;
     }
 
@@ -253,6 +260,7 @@ public class Server implements Node {
     }
 
 
+
     //Purpose: Create and Stream data datablock
     //Parameters: none
     //Return value: whether it succeded or not
@@ -282,7 +290,7 @@ public class Server implements Node {
             Node stub = (Node) registry.lookup("Node");
             //get the arbitrary data block
             String dBlock = stub.checkCounter();
-            currDb = dBlock;
+            dataQueue.add(dBlock);
             //get timestamp and offset
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
