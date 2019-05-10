@@ -55,7 +55,7 @@
      //testing to simulate data being live streamed
      public String checkCounter() {
        String response;
-       if(!currProvider.equals(masterIp)){
+       if(!selfIp.equals(masterIp)){
          if(dataQueue.size() > 1){
             response = dataQueue.pop();
             System.out.println("SENDING DATABLOCK " + response + "################# ");
