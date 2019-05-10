@@ -39,7 +39,7 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface Hello extends Remote {
+public interface Node extends Remote {
   void updateChain(int newChain) throws RemoteException;
   String checkCounter() throws RemoteException;
   String join(String selfIp) throws RemoteException;
