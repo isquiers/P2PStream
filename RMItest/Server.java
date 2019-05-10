@@ -55,9 +55,14 @@
      //testing to simulate data being live streamed
      public String checkCounter() {
        String response;
-       if(!currProvider.equals(masterIp)) {
-         response = dataQueue.peek();
-         dataQueue.removeFirst();
+       if(!currProvider.equals(masterIp)){
+  `      if(dataQueue.size() > 1){
+            response = dataQueue.pop();
+            System.out.println("SENDING DATABLOCK " + response + "################# ")
+          }
+          else{
+            response = dataQueue.peek();
+          }
        }
        else{
          response = currDb;
@@ -295,14 +300,19 @@
              Registry registry = LocateRegistry.getRegistry(host, 8699);
              Node stub = (Node) registry.lookup("Node");
              //get the arbitrary data block
+             System.out.println("here");
              String dBlock = stub.checkCounter();
              dataQueue.add(dBlock);
+             System.out.println("or here");
              //get timestamp and offset
+             System.out.println("or here1");
              String[] timestamp = dBlock.split(",");
+             System.out.println("or here2");
              Long timestampMills = Long.parseLong(timestamp[1]);
              int logVal = Integer.parseInt(timestamp[0]);
              Long offset = System.currentTimeMillis() - timestampMills;
-             System.out.println("Curr Log Value " + logVal + " -- Offset in milleseconds: " + offset);
+             printCache();
+             System.out.println("Curr Log Value " + logVal + " -- Offset in milleseconds: " + offset + "\n\n\n");
 
              //if the offset or latency is to bad request a new chain
              if ((offset > msThreshold) && (!currProvider.equals(masterIp))) {
@@ -396,5 +406,12 @@
        Arrays.fill(garbage, 'a');
        String Db = new String(garbage);
        return logClock + "," + time + "," + Db;
+     }
+
+     public static void printCache() {
+       System.out.println("in herrrrrr");
+       for (String db: dataQueue) {
+         System.out.println(db.substring(0,20));
+       }
      }
  }
