@@ -8,12 +8,8 @@ DONE:
   fix output of print index so its more legible
   send dataBlock
   compare data block timestamp to local timestamp and calculate difference
-
-
-
-TODO next:
-  make the cache
   start new chain() function
+
 
 TODO next:
   Cacheing stuff.
@@ -21,7 +17,6 @@ TODO next:
 TODO later:
 
   make node lookups faster, maybe hashmap? (Ip -> [chain][index])... but wont update
-  Leave willingly ( call remove dead node with self, update down stream node with new provider )
 
 TESTABLE Variables
   offset threshold
