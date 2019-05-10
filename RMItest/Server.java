@@ -56,9 +56,9 @@
      public String checkCounter() {
        String response;
        if(!currProvider.equals(masterIp)){
-  `      if(dataQueue.size() > 1){
+         if(dataQueue.size() > 1){
             response = dataQueue.pop();
-            System.out.println("SENDING DATABLOCK " + response + "################# ")
+            System.out.println("SENDING DATABLOCK " + response + "################# ");
           }
           else{
             response = dataQueue.peek();
