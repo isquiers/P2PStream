@@ -46,6 +46,8 @@
    //Tolerable Threshold or maximum amount of time we are willing to have as the
    //delay from the orginal stream
    public static int msThreshold = 5000;
+   public static int maxCache = 5;
+
    public Server() {}
 
  /*
@@ -57,7 +59,7 @@
        String response;
        if(!selfIp.equals(masterIp)){
          if(dataQueue.size() > 1){
-            response = dataQueue.pop();
+            response = dataQueue.peekLast();
             System.out.println("SENDING DATABLOCK " + response + "################# ");
           }
           else{
@@ -303,6 +305,9 @@
              //get the arbitrary data block
              System.out.println("here");
              String dBlock = stub.checkCounter();
+             if (dataQueue.size() > maxCache) {
+               dataQueue.removeFirst();
+             }
              dataQueue.add(dBlock);
              System.out.println("or here");
              //get timestamp and offset
