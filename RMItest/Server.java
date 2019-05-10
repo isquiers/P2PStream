@@ -60,7 +60,6 @@
        if(!selfIp.equals(masterIp)){
          if(dataQueue.size() > 1){
             response = dataQueue.peekLast();
-            System.out.println("SENDING DATABLOCK " + response + "################# ");
           }
           else{
             response = dataQueue.peek();
@@ -119,6 +118,7 @@
          newChainAlert(movingNode, newChainIndex);
          nodeIndex.get(currChain).remove(moveMe); // remove them from the old chain
        }
+       printIndex();
        return newProvider;
      }
 
