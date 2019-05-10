@@ -37,15 +37,25 @@ public class Server implements Node {
   public static Deque<String> dataQueue;
   public static int currClock;
 
+<<<<<<< HEAD
+  public static int missedDbs = 0;
+
+=======
   //Tolerable Threshold or maximum amount of time we are willing to have as the
   //delay from the orginal stream
   public static int msThreshold = 1000;
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
   public Server() {}
 
 /*
 ######################### BEGIN REMOTE FUNCTIONS ###########################
 */
 
+<<<<<<< HEAD
+  public synchronized void updateLog(int numMissed) {
+    missedDbs += numMissed;
+  }
+=======
     //testing to simulate data being live streamed
     public String checkCounter() {
       String response;
@@ -58,11 +68,28 @@ public class Server implements Node {
       }
       return response;
     }
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
 
-    public void updateChain (int newChain) {
-      currChainIndex = newChain;
-    }
+  //testing to simulate data being live streamed
+  public String checkCounter() {
+    String response = currDb;
+    return response;
+  }
 
+<<<<<<< HEAD
+  public void updateChain (int newChain) {
+    currChainIndex = newChain;
+  }
+
+  // executed by master
+  // returns new Provider
+  public synchronized String moveNode(String mover, int currChain) {
+    System.out.println("Node " + mover + " Requesting Move from Chain " + currChain);
+    int moveMe = nodeIndex.get(currChain).indexOf(mover);
+    if (moveMe == -1) {
+      //return Failure
+      System.out.println("Failed lookup when moving node");
+=======
     /* Purpose: This function is executed once a Nodes delay from the live stream
      * passes a certain threshold. This node moves the node and any follwing nodes attached
      * to it to a new chain.
@@ -106,8 +133,37 @@ public class Server implements Node {
         nodeIndex.get(currChain).remove(moveMe); // remove them from the old chain
       }
       return newProvider;
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
     }
+    int newChainIndex = currChain + 1;
+    if (nodeIndex.size() == newChainIndex) { //newchain will return null so we create new chain
+      nodeIndex.add(new ArrayList<String>());
+      nodeIndex.get(newChainIndex).add(masterIp);
+    }
+    String newProvider = nodeIndex.get(newChainIndex).get(nodeIndex.get(newChainIndex).size() - 1);
+    String movingNode = nodeIndex.get(currChain).get(moveMe);
+    while (movingNode != null) { // move all nodes downstream of requestor
+      nodeIndex.get(newChainIndex).add(movingNode); // add them to new chain
+      newChainAlert(movingNode, newChainIndex); // update them
+      nodeIndex.get(currChain).remove(moveMe); // remove them from the old chain
+      movingNode = nodeIndex.get(currChain).get(moveMe);
+    }
+    return newProvider;
+  }
 
+<<<<<<< HEAD
+  //executed by master
+  //this is called imediatly after a node that is not the Master is activated.
+  public synchronized String join(String newIp) {
+    System.out.println("Servicing join ################################ from " + newIp);
+
+    //if it is the master
+    // we could also do this in the master main loop, to take out this block
+    if (nodeIndex.size() == 0) {
+      System.out.println("Here1");
+      ArrayList<String> newChain = new ArrayList<String>();
+      nodeIndex.add(newChain);
+=======
     //Purpose: called imediatly after a node that is not the Master is activated.
     //this function joins a node to a chain.
     // Parameters: the ip of the node that wishes to join the stream.
@@ -128,12 +184,30 @@ public class Server implements Node {
       // join always initiates you at the end of chain 0,
       //assuming you will request a change if it's necessary
       String newProvider = nodeIndex.get(0).get(nodeIndex.get(0).size()-1);
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
       nodeIndex.get(0).add(newIp);
       //print the chains and their contents
       printIndex();
-      return newProvider;
+      return masterIp;
     }
+    // join always initiates you at the end of chain 0, assuming you will request a change if it's necessary
+    System.out.println("Here2");
+    String newProvider = nodeIndex.get(0).get(nodeIndex.get(0).size()-1);
+    nodeIndex.get(0).add(newIp);
+    printIndex();
+    return newProvider;
+  }
 
+<<<<<<< HEAD
+  public synchronized String removeNode(String deadNode, int chain) {
+    System.out.println("Node removal requested");
+    int removal = nodeIndex.get(chain).indexOf(deadNode);
+    if (removal != -1) {
+      System.out.println("removing node " + nodeIndex.get(chain).get(removal));
+      nodeIndex.get(chain).remove(removal);
+      if(removal == 0) {
+        return masterIp;
+=======
     //Purpose: removeNode that is in the chainList and is unresponsive
     //Parameters: a string that is the IP of the dead node, and the chain
     // it is located in
@@ -158,14 +232,29 @@ public class Server implements Node {
       } else {
         System.out.println("Node not Found");
         return "Error";
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
       }
+      System.out.println("returing node " + nodeIndex.get(chain).get(removal - 1));
+      printIndex();
+      return nodeIndex.get(chain).get(removal - 1);
+    } else {
+      System.out.println("Node not Found");
+      return "Error";
     }
+  }
 
 
 /*
 ######################### END REMOTE FUNCTIONS ###########################
 */
 
+<<<<<<< HEAD
+  // command line args [masterIp][selfIp]
+  public static void main(String args[]) {
+    if (args[0].toString().equals(args[1].toString())) {
+      System.err.println("is master");
+      isMaster = true;
+=======
     //Purpose: This is the main loop that goes thru and starts the necessary
     // functions for the node to be either a streamer or viewer
     //Parameters: command line arguments
@@ -203,8 +292,37 @@ public class Server implements Node {
         requestJoin();
         requestData();
       }
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
     }
+    masterIp = args[0].toString();
+    selfIp = args[1].toString();
 
+<<<<<<< HEAD
+    startServer();
+
+    if (isMaster) {
+      requestJoin();
+      Thread t1 = new Thread(new Runnable() {
+        public void run() {
+          updateCounter();
+        }
+      });
+      //updateFromFile();
+      t1.start();
+    } else {
+      createQueue();
+      requestJoin();
+      requestData();
+    }
+  }
+
+  private static void newChainAlert(String recievingNode, int newChainIndex) {
+    try {
+      Registry registry = LocateRegistry.getRegistry(recievingNode, 8699);
+      Hello stub = (Hello) registry.lookup("Hello");
+      stub.updateChain(newChainIndex);
+    } catch (Exception e) {
+=======
 
     //Purpose: Changes the currChain index in the master
     //Parameters: the recieving node, and the new chain index
@@ -254,11 +372,26 @@ public class Server implements Node {
 
       } catch (Exception e) {
         masterFailure();
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
         System.err.println("Client exception: " + e.toString());
         e.printStackTrace();
-      }
     }
+  }
 
+<<<<<<< HEAD
+  private static void requestNewProvider() {
+    System.out.println("Requesting new Provider other than " + currProvider);
+    try {
+      Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
+      Hello stub = (Hello) registry.lookup("Hello");
+      String response = stub.removeNode(currProvider, currChainIndex);
+      currProvider = response;
+      System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
+    } catch (Exception e) {
+      masterFailure();
+      System.err.println("Client exception: " + e.toString());
+      e.printStackTrace();
+=======
 
 
     //Purpose: Create and Stream data datablock
@@ -274,8 +407,62 @@ public class Server implements Node {
       Timer timer = new Timer();
       timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
       return 1;
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
     }
+  }
 
+<<<<<<< HEAD
+  private static void requestNewChain() {
+    try {
+      Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
+      Hello stub = (Hello) registry.lookup("Hello");
+      String response = stub.moveNode(selfIp, currChainIndex);
+      currProvider = response;
+
+    } catch (Exception e) {
+      masterFailure();
+      System.err.println("Client exception: " + e.toString());
+      e.printStackTrace();
+    }
+  }
+
+  private static int updateCounter() {
+    TimerTask repeatedTask = new TimerTask() {
+      public void run() {
+        currDb = createDb();
+        System.err.println(currDb.substring(0,20));
+      }
+    };
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
+    return 1;
+  }
+
+  private static void requestData() {
+    TimerTask repeatedTask = new TimerTask() {
+      public void run() {
+        // System.out.println("Requesting Data from Node: " + currProvider);
+        String host = currProvider;
+        try {
+          Registry registry = LocateRegistry.getRegistry(host, 8699);
+          Hello stub = (Hello) registry.lookup("Hello");
+
+          String dBlock = stub.checkCounter();
+          currDb = dBlock;
+          String[] timestamp = dBlock.split(",");
+          Long timestampMills = Long.parseLong(timestamp[1]);
+          Long offset = System.currentTimeMillis() - timestampMills;
+          System.out.println("This is time differnce milleseconds: " + offset);
+          if (offset > msThreshold && ) {
+            requestNewChain()
+          }
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            // e.printStackTrace();
+            System.out.println("request Data failed, requesting new Provider");
+            requestNewProvider();
+        }
+=======
 
     //Purpose: ask the provider for the data in the stream
     //Parameters: none
@@ -330,15 +517,48 @@ public class Server implements Node {
           requestNewProvider();
         }
         System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
       }
-      catch (Exception e) {
-        masterFailure();
-        System.err.println("Client exception: " + e.toString());
-        e.printStackTrace();
+    };
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(repeatedTask, 1000, 1000);
+  }
+
+  private static void requestJoin() {
+    System.out.println("Requesting Join");
+    try {
+      Registry registry = LocateRegistry.getRegistry(masterIp, 8699);
+      Hello stub = (Hello) registry.lookup("Hello");
+      String response = stub.join(selfIp);
+      currProvider = response;
+      if(currProvider.equals(selfIp) && !currProvider.equals(masterIp)) {
+        requestNewProvider();
       }
+      System.out.println("Join Accepted By Master, Provider Set To: " + currProvider);
+      // TODO:test for failure
     }
+    catch (Exception e) {
+      masterFailure();
+      System.err.println("Client exception: " + e.toString());
+      e.printStackTrace();
+    }
+  }
 
 
+<<<<<<< HEAD
+  private static Server obj;
+  private static void startServer() {
+    try {
+        obj = new Server();
+        Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 8699);
+        // Bind the remote object's stub in the registry
+        Registry registry = LocateRegistry.createRegistry(8699);
+        registry.bind("Hello", stub);
+        System.err.println("Server ready");
+    } catch (Exception e) {
+        System.err.println("Server exception: " + e.toString());
+        e.printStackTrace();
+=======
     private static Server obj;
     //Purpose: starts server
     private static void startServer() {
@@ -353,12 +573,22 @@ public class Server implements Node {
           System.err.println("Server exception: " + e.toString());
           e.printStackTrace();
       }
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
     }
+  }
 
-    public static void setMaster(boolean a) {
-      isMaster = a;
-    }
+  public static void setMaster(boolean a) {
+    isMaster = a;
+  }
 
+<<<<<<< HEAD
+  public void printIndex() {
+    for (int i = 0; i < nodeIndex.size(); i++) {
+      System.out.println(" Chain index " + i + ": ");
+      for (int j = 0; j < nodeIndex.get(i).size(); j++) {
+        System.out.print(" Node index " + j + ": ");
+        System.out.print(nodeIndex.get(i).get(j) + " ");
+=======
     //Purpose: print the chain index to help with visualization of whats going on.
     public void printIndex() {
       for (int i = 0; i < nodeIndex.size(); i++) {
@@ -368,17 +598,37 @@ public class Server implements Node {
           System.out.print(nodeIndex.get(i).get(j) + " ");
         }
         System.out.print("\n");
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
       }
+      System.out.print("\n");
     }
+  }
 
+<<<<<<< HEAD
+  public static void masterFailure() {
+    System.err.println("FATAL ERROR: Master Failure To Respond");
+    System.exit(0);
+  }
+=======
     public static void masterFailure() {
       System.err.println("FATAL ERROR: Master Failure To Respond");
     }
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
 
-    public static void createQueue(){
-      dataQueue = new LinkedList<String>();
-    }
+  public static void createQueue(){
+    dataQueue = new LinkedList<String>();
+  }
 
+<<<<<<< HEAD
+  public static String createDb() {
+    logClock += 1;
+    Long time = System.currentTimeMillis();
+    char[] garbage = new char[2000000];
+    Arrays.fill(garbage, 'a');
+    String Db = new String(garbage);
+    return logClock + "," + time + "," + Db;
+  }
+=======
     //Purpose: creating arbitrary block to be able to send
     public static String createDb() {
       logClock += 1;
@@ -388,4 +638,5 @@ public class Server implements Node {
       String Db = new String(garbage);
       return logClock + "," + time + "," + Db;
     }
+>>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
 }
