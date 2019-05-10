@@ -379,6 +379,7 @@
 
      public static void masterFailure() {
        System.err.println("FATAL ERROR: Master Failure To Respond");
+       System.exit(0);
      }
 
      public static void createQueue(){
