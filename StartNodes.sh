@@ -5,8 +5,8 @@ NOODES=('3.14.67.164' '54.153.0.234' '54.193.125.205' '52.24.143.203' '34.221.17
 for node in "${NODE[@]}"; do
   scp -i $1 -r P2PStream/RMItest/ $2@$node:
   ssh -i $1 $2@$node "cd RMItest/ ; chmod +x runNode.sh"
-  ssh -i $1 $2@$node "cd RMItest/ ; mkdir cats"
-  ssh -i $1 $2@$node "cd RMItest/ ; nohup runNode.sh $node > command.log 2>&1 &"
+  #ssh -i $1 $2@$node "cd RMItest/ ; mkdir cats"
+  ssh -i $1 $2@$node 'cd RMItest/ ; nohup ./runNode.sh '$node' > command.log 2>&1 &'
   # echo ssh -i $1 $2@$node "cd RMItest; make"
   # echo ssh -i $1 $2@$node "cd RMItest; java -Djava.rmi.server.hostname=$node Server $node 54.209.66.61"
   sleep 5s
