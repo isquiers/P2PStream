@@ -45,7 +45,7 @@
 
    //Tolerable Threshold or maximum amount of time we are willing to have as the
    //delay from the orginal stream
-   public static int msThreshold = 1000;
+   public static int msThreshold = 5000;
    public Server() {}
 
  /*
