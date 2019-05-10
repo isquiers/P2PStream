@@ -300,8 +300,9 @@
              //get timestamp and offset
              String[] timestamp = dBlock.split(",");
              Long timestampMills = Long.parseLong(timestamp[1]);
+             int logVal = Integer.parseInt(timestamp[0]);
              Long offset = System.currentTimeMillis() - timestampMills;
-             System.out.println("This is time differnce milleseconds: " + offset);
+             System.out.println("Curr Log Value " + logVal + " -- Offset in milleseconds: " + offset);
 
              //if the offset or latency is to bad request a new chain
              if ((offset > msThreshold) && (!currProvider.equals(masterIp))) {
