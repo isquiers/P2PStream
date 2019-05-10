@@ -34,7 +34,7 @@ public class Server implements Node {
   public static int logClock = 0;
 
   //might have some sort of cache dont know yet.
-  public static Deque<String> dataQueue;
+  public static Queue<String> dataQueue;
   public static int currClock;
 
 <<<<<<< HEAD
@@ -58,14 +58,7 @@ public class Server implements Node {
 =======
     //testing to simulate data being live streamed
     public String checkCounter() {
-      String response;
-      if(!currProvider.equals(masterIp)) {
-        response = dataQueue.peek();
-        dataQueue.removeFirst();
-      }
-      else{
-        response = currDb;
-      }
+      String response = currDb;
       return response;
     }
 >>>>>>> 75713cd534d2e129ec0353562409af8db8b21232
@@ -393,7 +386,6 @@ public class Server implements Node {
       e.printStackTrace();
 =======
 
-
     //Purpose: Create and Stream data datablock
     //Parameters: none
     //Return value: whether it succeded or not
@@ -477,7 +469,7 @@ public class Server implements Node {
             Node stub = (Node) registry.lookup("Node");
             //get the arbitrary data block
             String dBlock = stub.checkCounter();
-            dataQueue.add(dBlock);
+            currDb = dBlock;
             //get timestamp and offset
             String[] timestamp = dBlock.split(",");
             Long timestampMills = Long.parseLong(timestamp[1]);
