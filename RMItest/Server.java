@@ -379,6 +379,7 @@
 
      public static void masterFailure() {
        System.err.println("FATAL ERROR: Master Failure To Respond");
+       System.err.println("in here bitch");
        System.exit(0);
      }
 
