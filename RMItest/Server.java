@@ -111,7 +111,7 @@
        System.out.println("This is moving node " + movingNode);
 
        // move all nodes downstream of requestor
-       while (moveMe != nodeIndex.get(currChain).size()-1) {
+       while (moveMe != nodeIndex.get(currChain).size()) {
          //add the first value to the new chain
          nodeIndex.get(newChainIndex).add(movingNode);
          //updates the current Chain index
