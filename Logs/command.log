@@ -1,0 +1,225 @@
+java(32690): Operation not permitted
+java: no process found
+rm -f *.class
+javac Node.java
+javac Server.java
+Server ready
+Requesting Join
+Join Accepted By Master, Provider Set To: 34.221.171.231
+here
+in herrrrrr
+175,1557757480471,aa
+Curr Log Value 175 -- Offset in milleseconds: 5767
+
+
+
+here
+in herrrrrr
+175,1557757480471,aa
+180,1557757485471,aa
+Curr Log Value 180 -- Offset in milleseconds: 1171
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+175,1557757480471,aa
+180,1557757485471,aa
+181,1557757486472,aa
+Curr Log Value 181 -- Offset in milleseconds: 903
+
+
+
+here
+in herrrrrr
+175,1557757480471,aa
+180,1557757485471,aa
+181,1557757486472,aa
+182,1557757487472,aa
+Curr Log Value 182 -- Offset in milleseconds: 900
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+175,1557757480471,aa
+180,1557757485471,aa
+181,1557757486472,aa
+182,1557757487472,aa
+183,1557757488471,aa
+Curr Log Value 183 -- Offset in milleseconds: 897
+
+
+
+here
+in herrrrrr
+175,1557757480471,aa
+180,1557757485471,aa
+181,1557757486472,aa
+182,1557757487472,aa
+183,1557757488471,aa
+184,1557757489471,aa
+Curr Log Value 184 -- Offset in milleseconds: 897
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+180,1557757485471,aa
+181,1557757486472,aa
+182,1557757487472,aa
+183,1557757488471,aa
+184,1557757489471,aa
+185,1557757490471,aa
+Curr Log Value 185 -- Offset in milleseconds: 895
+
+
+
+here
+in herrrrrr
+181,1557757486472,aa
+182,1557757487472,aa
+183,1557757488471,aa
+184,1557757489471,aa
+185,1557757490471,aa
+186,1557757491471,aa
+Curr Log Value 186 -- Offset in milleseconds: 915
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+182,1557757487472,aa
+183,1557757488471,aa
+184,1557757489471,aa
+185,1557757490471,aa
+186,1557757491471,aa
+187,1557757492472,aa
+Curr Log Value 187 -- Offset in milleseconds: 924
+
+
+
+here
+in herrrrrr
+183,1557757488471,aa
+184,1557757489471,aa
+185,1557757490471,aa
+186,1557757491471,aa
+187,1557757492472,aa
+188,1557757493471,aa
+Curr Log Value 188 -- Offset in milleseconds: 928
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+184,1557757489471,aa
+185,1557757490471,aa
+186,1557757491471,aa
+187,1557757492472,aa
+188,1557757493471,aa
+189,1557757494472,aa
+Curr Log Value 189 -- Offset in milleseconds: 938
+
+
+
+here
+in herrrrrr
+185,1557757490471,aa
+186,1557757491471,aa
+187,1557757492472,aa
+188,1557757493471,aa
+189,1557757494472,aa
+190,1557757495471,aa
+Curr Log Value 190 -- Offset in milleseconds: 923
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+186,1557757491471,aa
+187,1557757492472,aa
+188,1557757493471,aa
+189,1557757494472,aa
+190,1557757495471,aa
+191,1557757496471,aa
+Curr Log Value 191 -- Offset in milleseconds: 914
+
+
+
+here
+in herrrrrr
+187,1557757492472,aa
+188,1557757493471,aa
+189,1557757494472,aa
+190,1557757495471,aa
+191,1557757496471,aa
+192,1557757497471,aa
+Curr Log Value 192 -- Offset in milleseconds: 915
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+188,1557757493471,aa
+189,1557757494472,aa
+190,1557757495471,aa
+191,1557757496471,aa
+192,1557757497471,aa
+193,1557757498471,aa
+Curr Log Value 193 -- Offset in milleseconds: 912
+
+
+
+here
+in herrrrrr
+189,1557757494472,aa
+190,1557757495471,aa
+191,1557757496471,aa
+192,1557757497471,aa
+193,1557757498471,aa
+194,1557757499471,aa
+Curr Log Value 194 -- Offset in milleseconds: 907
+
+
+
+MISSED DATABLOCK
+here
+in herrrrrr
+190,1557757495471,aa
+191,1557757496471,aa
+192,1557757497471,aa
+193,1557757498471,aa
+194,1557757499471,aa
+195,1557757500472,aa
+Curr Log Value 195 -- Offset in milleseconds: 903
+
+
+
+here
+in herrrrrr
+191,1557757496471,aa
+192,1557757497471,aa
+193,1557757498471,aa
+194,1557757499471,aa
+195,1557757500472,aa
+196,1557757501472,aa
+Curr Log Value 196 -- Offset in milleseconds: 910
+
+
+
+MISSED DATABLOCK
+Client exception: java.rmi.ConnectException: Connection refused to host: 54.209.66.61; nested exception is: 
+	java.net.ConnectException: Connection refused (Connection refused)
+request Data failed, requesting new Provider
+Requesting new Provider other than 54.209.66.61
+FATAL ERROR: Master Failure To Respond
+misssed 9 out of 21
+MISSRATE = 0

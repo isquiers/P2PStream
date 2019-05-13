@@ -328,9 +328,9 @@
                if (logVal != currLogVal + 1) {
                  System.out.println("MISSED DATABLOCK");
                  missedDbs += 1;
-                 currLogVal = logVal;
                }
              }
+             currLogVal = logVal;
              //if the offset or latency is to bad request a new chain
              if ((offset > msThreshold) && (!currProvider.equals(masterIp))) {
                requestNewChain();
