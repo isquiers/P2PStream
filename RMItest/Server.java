@@ -59,7 +59,7 @@
  */
 
      //testing to simulate data being live streamed
-     public String checkCounter() {
+     public String returnDb() {
        String response;
        if(!selfIp.equals(masterIp)){
          if(dataQueue.size() > 1){
@@ -72,10 +72,10 @@
        else{
          response = currDb;
        }
-       //hello
        return response;
      }
 
+     // run on viewer nodes
      public void updateChain (int newChain) {
        currChainIndex = newChain;
      }
@@ -308,7 +308,7 @@
              Node stub = (Node) registry.lookup("Node");
              //get the arbitrary data block
              System.out.println("here");
-             String dBlock = stub.checkCounter();
+             String dBlock = stub.returnDb();
              if (dataQueue.size() > maxCache) {
                dataQueue.removeFirst();
              }
