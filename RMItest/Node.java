@@ -41,7 +41,7 @@ import java.rmi.RemoteException;
 
 public interface Node extends Remote {
   void updateChain(int newChain) throws RemoteException;
-  String checkCounter() throws RemoteException;
+  String returnDb() throws RemoteException;
   String join(String selfIp) throws RemoteException;
   String removeNode(String deadNode, int chain) throws RemoteException;
   String moveNode(String mover, int currChain) throws RemoteException;

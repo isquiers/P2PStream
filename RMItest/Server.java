@@ -110,12 +110,9 @@
        //If we have already requested a new chain add the node requesting a move to the chain.
        String newProvider = nodeIndex.get(newChainIndex).get(nodeIndex.get(newChainIndex).size() - 1);
        System.out.println(newProvider + " this is new provider");
-       String movingNode = nodeIndex.get(currChain).get(moveMe);
-
-       System.out.println("This is moving node " + movingNode);
-
        // move all nodes downstream of requestor
        while (moveMe != nodeIndex.get(currChain).size()) {
+         String movingNode = nodeIndex.get(currChain).get(moveMe);
          //add the first value to the new chain
          nodeIndex.get(newChainIndex).add(movingNode);
          //updates the current Chain index
