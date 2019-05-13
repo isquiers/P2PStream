@@ -9,5 +9,5 @@ for node in "${NODES[@]}"; do
   ssh -i $1 $2@$node 'cd RMItest/ ; nohup ./runNode.sh '$node' > '$node'.log 2>&1 &'
   # echo ssh -i $1 $2@$node "cd RMItest; make"
   # echo ssh -i $1 $2@$node "cd RMItest; java -Djava.rmi.server.hostname=$node Server $node 54.209.66.61"
-  sleep 5s
+  sleep 2s
 done

@@ -1,0 +1,588 @@
+java(8068): Operation not permitted
+java: no process found
+rm -f *.class
+javac Node.java
+javac Server.java
+Server ready
+Requesting Join
+Join Accepted By Master, Provider Set To: 54.153.0.234
+here
+in herrrrrr
+59,1557758791422,aaa
+Curr Log Value 59 -- Offset in milleseconds: 2840
+
+
+
+here
+in herrrrrr
+59,1557758791422,aaa
+60,1557758792421,aaa
+Curr Log Value 60 -- Offset in milleseconds: 2807
+
+
+
+here
+in herrrrrr
+59,1557758791422,aaa
+60,1557758792421,aaa
+61,1557758793421,aaa
+Curr Log Value 61 -- Offset in milleseconds: 2798
+
+
+
+here
+in herrrrrr
+59,1557758791422,aaa
+60,1557758792421,aaa
+61,1557758793421,aaa
+62,1557758794421,aaa
+Curr Log Value 62 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+59,1557758791422,aaa
+60,1557758792421,aaa
+61,1557758793421,aaa
+62,1557758794421,aaa
+63,1557758795421,aaa
+Curr Log Value 63 -- Offset in milleseconds: 2777
+
+
+
+here
+in herrrrrr
+59,1557758791422,aaa
+60,1557758792421,aaa
+61,1557758793421,aaa
+62,1557758794421,aaa
+63,1557758795421,aaa
+64,1557758796421,aaa
+Curr Log Value 64 -- Offset in milleseconds: 2782
+
+
+
+here
+in herrrrrr
+60,1557758792421,aaa
+61,1557758793421,aaa
+62,1557758794421,aaa
+63,1557758795421,aaa
+64,1557758796421,aaa
+65,1557758797422,aaa
+Curr Log Value 65 -- Offset in milleseconds: 2774
+
+
+
+here
+in herrrrrr
+61,1557758793421,aaa
+62,1557758794421,aaa
+63,1557758795421,aaa
+64,1557758796421,aaa
+65,1557758797422,aaa
+66,1557758798421,aaa
+Curr Log Value 66 -- Offset in milleseconds: 2786
+
+
+
+here
+in herrrrrr
+62,1557758794421,aaa
+63,1557758795421,aaa
+64,1557758796421,aaa
+65,1557758797422,aaa
+66,1557758798421,aaa
+67,1557758799421,aaa
+Curr Log Value 67 -- Offset in milleseconds: 2780
+
+
+
+here
+in herrrrrr
+63,1557758795421,aaa
+64,1557758796421,aaa
+65,1557758797422,aaa
+66,1557758798421,aaa
+67,1557758799421,aaa
+68,1557758800421,aaa
+Curr Log Value 68 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+64,1557758796421,aaa
+65,1557758797422,aaa
+66,1557758798421,aaa
+67,1557758799421,aaa
+68,1557758800421,aaa
+69,1557758801422,aaa
+Curr Log Value 69 -- Offset in milleseconds: 2779
+
+
+
+here
+in herrrrrr
+65,1557758797422,aaa
+66,1557758798421,aaa
+67,1557758799421,aaa
+68,1557758800421,aaa
+69,1557758801422,aaa
+70,1557758802421,aaa
+Curr Log Value 70 -- Offset in milleseconds: 2787
+
+
+
+here
+in herrrrrr
+66,1557758798421,aaa
+67,1557758799421,aaa
+68,1557758800421,aaa
+69,1557758801422,aaa
+70,1557758802421,aaa
+71,1557758803421,aaa
+Curr Log Value 71 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+67,1557758799421,aaa
+68,1557758800421,aaa
+69,1557758801422,aaa
+70,1557758802421,aaa
+71,1557758803421,aaa
+72,1557758804422,aaa
+Curr Log Value 72 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+68,1557758800421,aaa
+69,1557758801422,aaa
+70,1557758802421,aaa
+71,1557758803421,aaa
+72,1557758804422,aaa
+73,1557758805421,aaa
+Curr Log Value 73 -- Offset in milleseconds: 2793
+
+
+
+here
+in herrrrrr
+69,1557758801422,aaa
+70,1557758802421,aaa
+71,1557758803421,aaa
+72,1557758804422,aaa
+73,1557758805421,aaa
+74,1557758806421,aaa
+Curr Log Value 74 -- Offset in milleseconds: 2784
+
+
+
+here
+in herrrrrr
+70,1557758802421,aaa
+71,1557758803421,aaa
+72,1557758804422,aaa
+73,1557758805421,aaa
+74,1557758806421,aaa
+75,1557758807421,aaa
+Curr Log Value 75 -- Offset in milleseconds: 2780
+
+
+
+here
+in herrrrrr
+71,1557758803421,aaa
+72,1557758804422,aaa
+73,1557758805421,aaa
+74,1557758806421,aaa
+75,1557758807421,aaa
+76,1557758808422,aaa
+Curr Log Value 76 -- Offset in milleseconds: 2784
+
+
+
+here
+in herrrrrr
+72,1557758804422,aaa
+73,1557758805421,aaa
+74,1557758806421,aaa
+75,1557758807421,aaa
+76,1557758808422,aaa
+77,1557758809421,aaa
+Curr Log Value 77 -- Offset in milleseconds: 2779
+
+
+
+here
+in herrrrrr
+73,1557758805421,aaa
+74,1557758806421,aaa
+75,1557758807421,aaa
+76,1557758808422,aaa
+77,1557758809421,aaa
+78,1557758810421,aaa
+Curr Log Value 78 -- Offset in milleseconds: 2781
+
+
+
+here
+in herrrrrr
+74,1557758806421,aaa
+75,1557758807421,aaa
+76,1557758808422,aaa
+77,1557758809421,aaa
+78,1557758810421,aaa
+79,1557758811421,aaa
+Curr Log Value 79 -- Offset in milleseconds: 2806
+
+
+
+here
+in herrrrrr
+75,1557758807421,aaa
+76,1557758808422,aaa
+77,1557758809421,aaa
+78,1557758810421,aaa
+79,1557758811421,aaa
+80,1557758812421,aaa
+Curr Log Value 80 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+76,1557758808422,aaa
+77,1557758809421,aaa
+78,1557758810421,aaa
+79,1557758811421,aaa
+80,1557758812421,aaa
+81,1557758813421,aaa
+Curr Log Value 81 -- Offset in milleseconds: 2787
+
+
+
+here
+in herrrrrr
+77,1557758809421,aaa
+78,1557758810421,aaa
+79,1557758811421,aaa
+80,1557758812421,aaa
+81,1557758813421,aaa
+82,1557758814422,aaa
+Curr Log Value 82 -- Offset in milleseconds: 2805
+
+
+
+here
+in herrrrrr
+78,1557758810421,aaa
+79,1557758811421,aaa
+80,1557758812421,aaa
+81,1557758813421,aaa
+82,1557758814422,aaa
+83,1557758815422,aaa
+Curr Log Value 83 -- Offset in milleseconds: 2786
+
+
+
+here
+in herrrrrr
+79,1557758811421,aaa
+80,1557758812421,aaa
+81,1557758813421,aaa
+82,1557758814422,aaa
+83,1557758815422,aaa
+84,1557758816422,aaa
+Curr Log Value 84 -- Offset in milleseconds: 2785
+
+
+
+here
+in herrrrrr
+80,1557758812421,aaa
+81,1557758813421,aaa
+82,1557758814422,aaa
+83,1557758815422,aaa
+84,1557758816422,aaa
+85,1557758817421,aaa
+Curr Log Value 85 -- Offset in milleseconds: 2800
+
+
+
+here
+in herrrrrr
+81,1557758813421,aaa
+82,1557758814422,aaa
+83,1557758815422,aaa
+84,1557758816422,aaa
+85,1557758817421,aaa
+86,1557758818421,aaa
+Curr Log Value 86 -- Offset in milleseconds: 2777
+
+
+
+here
+in herrrrrr
+82,1557758814422,aaa
+83,1557758815422,aaa
+84,1557758816422,aaa
+85,1557758817421,aaa
+86,1557758818421,aaa
+87,1557758819421,aaa
+Curr Log Value 87 -- Offset in milleseconds: 2791
+
+
+
+here
+in herrrrrr
+83,1557758815422,aaa
+84,1557758816422,aaa
+85,1557758817421,aaa
+86,1557758818421,aaa
+87,1557758819421,aaa
+88,1557758820421,aaa
+Curr Log Value 88 -- Offset in milleseconds: 2790
+
+
+
+here
+in herrrrrr
+84,1557758816422,aaa
+85,1557758817421,aaa
+86,1557758818421,aaa
+87,1557758819421,aaa
+88,1557758820421,aaa
+89,1557758821421,aaa
+Curr Log Value 89 -- Offset in milleseconds: 2785
+
+
+
+here
+in herrrrrr
+85,1557758817421,aaa
+86,1557758818421,aaa
+87,1557758819421,aaa
+88,1557758820421,aaa
+89,1557758821421,aaa
+90,1557758822421,aaa
+Curr Log Value 90 -- Offset in milleseconds: 2780
+
+
+
+here
+in herrrrrr
+86,1557758818421,aaa
+87,1557758819421,aaa
+88,1557758820421,aaa
+89,1557758821421,aaa
+90,1557758822421,aaa
+91,1557758823421,aaa
+Curr Log Value 91 -- Offset in milleseconds: 2786
+
+
+
+here
+in herrrrrr
+87,1557758819421,aaa
+88,1557758820421,aaa
+89,1557758821421,aaa
+90,1557758822421,aaa
+91,1557758823421,aaa
+92,1557758824421,aaa
+Curr Log Value 92 -- Offset in milleseconds: 2773
+
+
+
+here
+in herrrrrr
+88,1557758820421,aaa
+89,1557758821421,aaa
+90,1557758822421,aaa
+91,1557758823421,aaa
+92,1557758824421,aaa
+93,1557758825421,aaa
+Curr Log Value 93 -- Offset in milleseconds: 2776
+
+
+
+here
+in herrrrrr
+89,1557758821421,aaa
+90,1557758822421,aaa
+91,1557758823421,aaa
+92,1557758824421,aaa
+93,1557758825421,aaa
+94,1557758826422,aaa
+Curr Log Value 94 -- Offset in milleseconds: 2789
+
+
+
+here
+in herrrrrr
+90,1557758822421,aaa
+91,1557758823421,aaa
+92,1557758824421,aaa
+93,1557758825421,aaa
+94,1557758826422,aaa
+95,1557758827421,aaa
+Curr Log Value 95 -- Offset in milleseconds: 2788
+
+
+
+here
+in herrrrrr
+91,1557758823421,aaa
+92,1557758824421,aaa
+93,1557758825421,aaa
+94,1557758826422,aaa
+95,1557758827421,aaa
+96,1557758828421,aaa
+Curr Log Value 96 -- Offset in milleseconds: 2786
+
+
+
+here
+in herrrrrr
+92,1557758824421,aaa
+93,1557758825421,aaa
+94,1557758826422,aaa
+95,1557758827421,aaa
+96,1557758828421,aaa
+97,1557758829421,aaa
+Curr Log Value 97 -- Offset in milleseconds: 2796
+
+
+
+here
+in herrrrrr
+93,1557758825421,aaa
+94,1557758826422,aaa
+95,1557758827421,aaa
+96,1557758828421,aaa
+97,1557758829421,aaa
+98,1557758830421,aaa
+Curr Log Value 98 -- Offset in milleseconds: 2785
+
+
+
+here
+in herrrrrr
+94,1557758826422,aaa
+95,1557758827421,aaa
+96,1557758828421,aaa
+97,1557758829421,aaa
+98,1557758830421,aaa
+99,1557758831421,aaa
+Curr Log Value 99 -- Offset in milleseconds: 2795
+
+
+
+here
+in herrrrrr
+95,1557758827421,aaa
+96,1557758828421,aaa
+97,1557758829421,aaa
+98,1557758830421,aaa
+99,1557758831421,aaa
+100,1557758832422,aa
+Curr Log Value 100 -- Offset in milleseconds: 2796
+
+
+
+here
+in herrrrrr
+96,1557758828421,aaa
+97,1557758829421,aaa
+98,1557758830421,aaa
+99,1557758831421,aaa
+100,1557758832422,aa
+101,1557758833421,aa
+Curr Log Value 101 -- Offset in milleseconds: 2788
+
+
+
+here
+in herrrrrr
+97,1557758829421,aaa
+98,1557758830421,aaa
+99,1557758831421,aaa
+100,1557758832422,aa
+101,1557758833421,aa
+102,1557758834421,aa
+Curr Log Value 102 -- Offset in milleseconds: 2775
+
+
+
+here
+in herrrrrr
+98,1557758830421,aaa
+99,1557758831421,aaa
+100,1557758832422,aa
+101,1557758833421,aa
+102,1557758834421,aa
+103,1557758835421,aa
+Curr Log Value 103 -- Offset in milleseconds: 2783
+
+
+
+here
+in herrrrrr
+99,1557758831421,aaa
+100,1557758832422,aa
+101,1557758833421,aa
+102,1557758834421,aa
+103,1557758835421,aa
+104,1557758836421,aa
+Curr Log Value 104 -- Offset in milleseconds: 2779
+
+
+
+here
+in herrrrrr
+100,1557758832422,aa
+101,1557758833421,aa
+102,1557758834421,aa
+103,1557758835421,aa
+104,1557758836421,aa
+105,1557758837421,aa
+Curr Log Value 105 -- Offset in milleseconds: 2784
+
+
+
+here
+in herrrrrr
+101,1557758833421,aa
+102,1557758834421,aa
+103,1557758835421,aa
+104,1557758836421,aa
+105,1557758837421,aa
+106,1557758838422,aa
+Curr Log Value 106 -- Offset in milleseconds: 2788
+
+
+
+here
+in herrrrrr
+102,1557758834421,aa
+103,1557758835421,aa
+104,1557758836421,aa
+105,1557758837421,aa
+106,1557758838422,aa
+107,1557758839421,aa
+Curr Log Value 107 -- Offset in milleseconds: 2785
+
+
+
+Client exception: java.rmi.ConnectException: Connection refused to host: 54.153.0.234; nested exception is: 
+	java.net.ConnectException: Connection refused (Connection refused)
+request Data failed, requesting new Provider
+Requesting new Provider other than 54.153.0.234
+FATAL ERROR: Master Failure To Respond
+misssed 0 out of 48
+MISSRATE = 0
