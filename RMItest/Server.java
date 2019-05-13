@@ -38,6 +38,7 @@
 
    //logical clock value to see where in the datablock it is requesting.
    public static int logClock = 0;
+   public static int currLogVal = 0;
 
    //might have some sort of cache dont know yet.
    public static Deque<String> dataQueue;
@@ -47,6 +48,9 @@
    //delay from the orginal stream
    public static int msThreshold = 5000;
    public static int maxCache = 5;
+   public static int missedDbs = 0;
+   public static int startVal = 0;
+
 
    public Server() {}
 
@@ -309,17 +313,24 @@
                dataQueue.removeFirst();
              }
              dataQueue.add(dBlock);
-             System.out.println("or here");
              //get timestamp and offset
-             System.out.println("or here1");
              String[] timestamp = dBlock.split(",");
-             System.out.println("or here2");
              Long timestampMills = Long.parseLong(timestamp[1]);
              int logVal = Integer.parseInt(timestamp[0]);
              Long offset = System.currentTimeMillis() - timestampMills;
              printCache();
              System.out.println("Curr Log Value " + logVal + " -- Offset in milleseconds: " + offset + "\n\n\n");
-
+             if (startVal == 0) {
+               startVal = logVal;
+               currLogVal = logVal;
+             }
+             else {
+               if (logVal != currLogVal + 1) {
+                 System.out.println("MISSED DATABLOCK");
+                 missedDbs += 1;
+                 currLogVal = logVal;
+               }
+             }
              //if the offset or latency is to bad request a new chain
              if ((offset > msThreshold) && (!currProvider.equals(masterIp))) {
                requestNewChain();
@@ -396,7 +407,9 @@
 
      public static void masterFailure() {
        System.err.println("FATAL ERROR: Master Failure To Respond");
-       System.err.println("in here bitch");
+       int time = currLogVal - startVal;
+       System.out.println("misssed " + missedDbs + " out of " + time);
+       System.out.println("MISSRATE = " + (missedDbs/time));
        System.exit(0);
      }
 
