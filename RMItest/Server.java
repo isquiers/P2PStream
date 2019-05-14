@@ -82,6 +82,7 @@
 
      // run on viewer nodes
      public void updateChain (int newChain) {
+       System.out.println("HELLO " + newChain);
        currChainIndex = newChain;
      }
 
@@ -96,10 +97,10 @@
 
        // index of node that is requesting a new Chain
        int moveMe = nodeIndex.get(currChain).indexOf(mover);
-       if (moveMe == -1) {
+       while (moveMe == -1) {
          //return Failure
          System.out.println("Failed lookup when moving node");
-         return "kill yourself";
+         return "wait";
        }
        //increment the currChain to indicate were are looking for a enw chain
        int newChainIndex = currChain + 1;
@@ -231,6 +232,7 @@
      //Parameters: the recieving node, and the new chain index
      //return value: none
      private static void newChainAlert(String recievingNode, int newChainIndex) {
+       System.out.println("Updating node " + recievingNode + " with chain" + newChainIndex);
        try {
          Registry registry = LocateRegistry.getRegistry(recievingNode, 8699);
          Node stub = (Node) registry.lookup("Node");
@@ -254,9 +256,9 @@
 
          //remove yourself and reset current provider.
          String response = stub.removeNode(currProvider, currChainIndex);
-         if (response.equals("kill yourself")) {
-           System.out.println("Killing Self");
-           System.exit(0);
+         if (response.equals("wait")) {
+           System.out.println("recieved wait notice: " + response);
+           return;
          }
          currProvider = response;
          System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
@@ -345,6 +347,9 @@
            } catch (Exception e) {
                System.err.println("Client exception: " + e.toString());
                // e.printStackTrace();
+               if (currProvider.equals(masterIp)) {
+                 masterFailure();
+               }
                System.out.println("request Data failed, requesting new Provider");
                requestNewProvider();
            }
