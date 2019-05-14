@@ -422,7 +422,7 @@
        System.err.println("FATAL ERROR: Master Failure To Respond");
        int time = currLogVal - startVal;
        System.out.println("misssed " + missedDbs + " out of " + time);
-       double missrate = (double) missedDbs / time;
+       double missrate = (double) missedDbs / (double) time;
        System.out.println("MISSRATE = " + (missedDbs/time));
        System.exit(0);
      }

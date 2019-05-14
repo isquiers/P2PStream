@@ -33,35 +33,34 @@ OPTIMIZED=(
 '13.112.35.80'
 '13.229.131.254'
 '3.0.94.77')
-test=('1'
-'2'
-'3'
-'4'
-'5'
-'6'
-'7'
-'8'
-'9')
+
 # fisher-yates shuffle from bashfaqs
 shuffle() {
    local i tmp size max rand
 
    # $RANDOM % (i+1) is biased because of the limited range of $RANDOM
    # Compensate by using a range which is a multiple of the array size.
-   size=${#test[*]}
+   size=${#NOODES[*]}
    max=$(( 32768 / size * size ))
 
    for ((i=size-1; i>0; i--)); do
       while (( (rand=$RANDOM) >= max )); do :; done
       rand=$(( rand % (i+1) ))
-      tmp=${test[i]} test[i]=${test[rand]} test[rand]=$tmp
+      tmp=${NOODES[i]} NOODES[i]=${NOODES[rand]} NOODES[rand]=$tmp
    done
 }
 
+shuffle
+# for i in {0..6};
+# do
+#   echo ${NOODES[$i]}
+# done
 
-for node in "${BAD[@]}"; do
-  scp -i $1 -r P2PStream/RMItest/ $2@$node:
-  ssh -i $1 -o StrictHostKeyChecking=no $2@$node "cd RMItest/ ; chmod +x runNode.sh"
-  ssh -i $1 -o StrictHostKeyChecking=no $2@$node 'cd RMItest/ ; nohup ./runNode.sh '$node' > '$node'.log 2>&1 &'
+# for node in "${BAD[@]}"; do
+for i in {0..20};
+do
+  scp -i $1 -r P2PStream/RMItest/ $2@${NOODES[$i]}:
+  ssh -i $1 $2@${NOODES[$i]} "cd RMItest/ ; chmod +x runNode.sh"
+  ssh -i $1 $2@${NOODES[$i]} 'cd RMItest/ ; nohup ./runNode.sh '${NOODES[$i]}' > '${NOODES[$i]}'.log 2>&1 &'
   sleep 2s
 done
