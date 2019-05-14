@@ -45,7 +45,7 @@
 
    //Tolerable Threshold or maximum amount of time we are willing to have as the
    //delay from the orginal stream
-   public static int msThreshold = 5000;
+   public static int msThreshold = 15000;
    public static int maxCache = 5;
    public static int missedDbs = 0;
    public static int startVal = 0;
@@ -256,7 +256,7 @@
          //remove yourself and reset current provider.
          String response = stub.removeNode(currProvider, currChainIndex);
          if (response.equals("Error")) {
-
+           System.exit(0);
          }
          currProvider = response;
          System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
@@ -423,7 +423,7 @@
        int time = currLogVal - startVal;
        System.out.println("misssed " + missedDbs + " out of " + time);
        double missrate = (double) missedDbs / (double) time;
-       System.out.println("MISSRATE = " + (missedDbs/time));
+       System.out.println("MISSRATE = " + missrate);
        System.exit(0);
      }
 
