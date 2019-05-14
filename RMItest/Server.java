@@ -1,7 +1,6 @@
 /* This is a node that implements a simulate live stream by passsing arbitrary datablocks
  * at real time from a Node that considers itself the Master/Streamer.
  * Created By Sean Cork & Ian Squires
- *
  */
 
  /* This is a node that implements a simulate live stream by passsing arbitrary datablocks
@@ -102,7 +101,7 @@
          System.out.println("Failed lookup when moving node");
          return "wait";
        }
-       //increment the currChain to indicate were are looking for a enw chain
+       //increment the currChain to indicate were are looking for a new chain
        int newChainIndex = currChain + 1;
 
        //newchain will return null so we create new chain
@@ -136,7 +135,7 @@
      // return value: The Ip of the master or the node that is providing this new node
      // with its data
      public synchronized String join(String newIp) {
-       System.out.println("Servicing join ################################ from " + newIp);
+       System.out.println("Servicing join ############### from " + newIp);
 
        //if it is the master
        if (nodeIndex.size() == 0) {
@@ -256,9 +255,8 @@
 
          //remove yourself and reset current provider.
          String response = stub.removeNode(currProvider, currChainIndex);
-         if (response.equals("wait")) {
-           System.out.println("recieved wait notice: " + response);
-           return;
+         if (response.equals("Error")) {
+
          }
          currProvider = response;
          System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
@@ -277,8 +275,11 @@
          Node stub = (Node) registry.lookup("Node");
          //move the node and children to new chain
          String response = stub.moveNode(selfIp, currChainIndex);
+         if (response.equals("wait")) {
+           System.out.println("recieved wait notice: " + response);
+           return;
+         }
          currProvider = response;
-
        } catch (Exception e) {
          masterFailure();
          System.err.println("Client exception: " + e.toString());
@@ -328,7 +329,7 @@
              int logVal = Integer.parseInt(timestamp[0]);
              Long offset = System.currentTimeMillis() - timestampMills;
              printCache();
-             System.out.println("Curr Log Value " + logVal + " -- Offset in milleseconds: " + offset + "\n\n\n");
+             System.out.println("Curr Log Value " + logVal + "--Offset in ms: " + offset + "\n\n");
              if (startVal == 0) {
                startVal = logVal;
                currLogVal = logVal;
