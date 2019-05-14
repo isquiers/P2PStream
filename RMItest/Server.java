@@ -46,7 +46,7 @@
 
    //Tolerable Threshold or maximum amount of time we are willing to have as the
    //delay from the orginal stream
-   public static int msThreshold = 5000;
+   public static int msThreshold = 3000;
    public static int maxCache = 5;
    public static int missedDbs = 0;
    public static int startVal = 0;
@@ -72,6 +72,11 @@
        else{
          response = currDb;
        }
+       if (response == null) {
+         System.out.println("DataQueue empty");
+         Long time = System.currentTimeMillis();
+         response = "0," + time + ",nullvalue";
+       }
        return response;
      }
 
@@ -94,6 +99,7 @@
        if (moveMe == -1) {
          //return Failure
          System.out.println("Failed lookup when moving node");
+         return "kill yourself";
        }
        //increment the currChain to indicate were are looking for a enw chain
        int newChainIndex = currChain + 1;
@@ -156,7 +162,7 @@
      // connect to.
      public synchronized String removeNode(String deadNode, int chain) {
        //Debug
-       System.out.println("Node removal requested");
+       System.out.println("Node removal requested for " + deadNode);
        //index of node that we want to remove
        int removal = nodeIndex.get(chain).indexOf(deadNode);
        //if the node is actually going to get removed
@@ -248,6 +254,10 @@
 
          //remove yourself and reset current provider.
          String response = stub.removeNode(currProvider, currChainIndex);
+         if (response.equals("kill yourself")) {
+           System.out.println("Killing Self");
+           System.exit(0);
+         }
          currProvider = response;
          System.out.println("New Provider Accepted By Master, Provider Set To: " + currProvider);
        } catch (Exception e) {
@@ -426,7 +436,6 @@
      }
 
      public static void printCache() {
-       System.out.println("in herrrrrr");
        for (String db: dataQueue) {
          System.out.println(db.substring(0,20));
        }
