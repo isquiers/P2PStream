@@ -1,0 +1,7 @@
+Instructions to Start Server
+1. First SCP the latest copy of the local files to the master server at '54.209.66.61'
+2. Run runNode.sh with the Ip address '54.209.66.61' as its only argument this will start the master
+server and start streaming data.
+3. On the local machine run ./StartNodes.sh giving [keypair] [username] as the arguments
+This will start up as many nodes as you specified in StartNodes.sh and they will connect to the master
+You can see the current chains everytime a new node connects ot the system.
