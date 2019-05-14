@@ -34,6 +34,7 @@ OPTIMIZED=(
 '13.229.131.254'
 '3.0.94.77')
 
+tested=()
 # fisher-yates shuffle from bashfaqs
 shuffle() {
    local i tmp size max rand
@@ -62,5 +63,13 @@ do
   scp -i $1 -r P2PStream/RMItest/ $2@${NOODES[$i]}:
   ssh -i $1 $2@${NOODES[$i]} "cd RMItest/ ; chmod +x runNode.sh"
   ssh -i $1 $2@${NOODES[$i]} 'cd RMItest/ ; nohup ./runNode.sh '${NOODES[$i]}' > '${NOODES[$i]}'.log 2>&1 &'
-  sleep 2s
+  tested +=(${NOODES[$i]})
+  sleep 1s
+done
+
+for i in {0..20};
+do
+  printf "'"
+  printf ${NOODES[$i]}
+  printf "' "
 done

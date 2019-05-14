@@ -45,7 +45,7 @@
 
    //Tolerable Threshold or maximum amount of time we are willing to have as the
    //delay from the orginal stream
-   public static int msThreshold = 3000;
+   public static int msThreshold = 5000;
    public static int maxCache = 5;
    public static int missedDbs = 0;
    public static int startVal = 0;
